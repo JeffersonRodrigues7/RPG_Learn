@@ -28,7 +28,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
             ""id"": ""bd22fcb8-08d0-4199-aaad-5629707e7997"",
             ""actions"": [
                 {
-                    ""name"": ""KeyboardMovement"",
+                    ""name"": ""KeyboardWalk"",
                     ""type"": ""Value"",
                     ""id"": ""805fa781-bf6f-4dd4-b124-271852990d88"",
                     ""expectedControlType"": ""Vector2"",
@@ -37,7 +37,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MouseMovement"",
+                    ""name"": ""MouseWalk"",
                     ""type"": ""Button"",
                     ""id"": ""e73c7782-ec70-4f3e-8757-429357afdc60"",
                     ""expectedControlType"": ""Button"",
@@ -74,7 +74,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMovement"",
+                    ""action"": ""KeyboardWalk"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -85,7 +85,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMovement"",
+                    ""action"": ""KeyboardWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -96,7 +96,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMovement"",
+                    ""action"": ""KeyboardWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -107,7 +107,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMovement"",
+                    ""action"": ""KeyboardWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -118,7 +118,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMovement"",
+                    ""action"": ""KeyboardWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -129,7 +129,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseMovement"",
+                    ""action"": ""MouseWalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -140,8 +140,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
 }");
         // CharacterControls
         m_CharacterControls = asset.FindActionMap("CharacterControls", throwIfNotFound: true);
-        m_CharacterControls_KeyboardMovement = m_CharacterControls.FindAction("KeyboardMovement", throwIfNotFound: true);
-        m_CharacterControls_MouseMovement = m_CharacterControls.FindAction("MouseMovement", throwIfNotFound: true);
+        m_CharacterControls_KeyboardWalk = m_CharacterControls.FindAction("KeyboardWalk", throwIfNotFound: true);
+        m_CharacterControls_MouseWalk = m_CharacterControls.FindAction("MouseWalk", throwIfNotFound: true);
         m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
     }
 
@@ -202,15 +202,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     // CharacterControls
     private readonly InputActionMap m_CharacterControls;
     private ICharacterControlsActions m_CharacterControlsActionsCallbackInterface;
-    private readonly InputAction m_CharacterControls_KeyboardMovement;
-    private readonly InputAction m_CharacterControls_MouseMovement;
+    private readonly InputAction m_CharacterControls_KeyboardWalk;
+    private readonly InputAction m_CharacterControls_MouseWalk;
     private readonly InputAction m_CharacterControls_Run;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
         public CharacterControlsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @KeyboardMovement => m_Wrapper.m_CharacterControls_KeyboardMovement;
-        public InputAction @MouseMovement => m_Wrapper.m_CharacterControls_MouseMovement;
+        public InputAction @KeyboardWalk => m_Wrapper.m_CharacterControls_KeyboardWalk;
+        public InputAction @MouseWalk => m_Wrapper.m_CharacterControls_MouseWalk;
         public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
@@ -221,12 +221,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_CharacterControlsActionsCallbackInterface != null)
             {
-                @KeyboardMovement.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardMovement;
-                @KeyboardMovement.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardMovement;
-                @KeyboardMovement.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardMovement;
-                @MouseMovement.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseMovement;
-                @MouseMovement.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseMovement;
-                @MouseMovement.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseMovement;
+                @KeyboardWalk.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardWalk;
+                @KeyboardWalk.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardWalk;
+                @KeyboardWalk.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnKeyboardWalk;
+                @MouseWalk.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseWalk;
+                @MouseWalk.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseWalk;
+                @MouseWalk.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnMouseWalk;
                 @Run.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnRun;
@@ -234,12 +234,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @KeyboardMovement.started += instance.OnKeyboardMovement;
-                @KeyboardMovement.performed += instance.OnKeyboardMovement;
-                @KeyboardMovement.canceled += instance.OnKeyboardMovement;
-                @MouseMovement.started += instance.OnMouseMovement;
-                @MouseMovement.performed += instance.OnMouseMovement;
-                @MouseMovement.canceled += instance.OnMouseMovement;
+                @KeyboardWalk.started += instance.OnKeyboardWalk;
+                @KeyboardWalk.performed += instance.OnKeyboardWalk;
+                @KeyboardWalk.canceled += instance.OnKeyboardWalk;
+                @MouseWalk.started += instance.OnMouseWalk;
+                @MouseWalk.performed += instance.OnMouseWalk;
+                @MouseWalk.canceled += instance.OnMouseWalk;
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
@@ -249,8 +249,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     public CharacterControlsActions @CharacterControls => new CharacterControlsActions(this);
     public interface ICharacterControlsActions
     {
-        void OnKeyboardMovement(InputAction.CallbackContext context);
-        void OnMouseMovement(InputAction.CallbackContext context);
+        void OnKeyboardWalk(InputAction.CallbackContext context);
+        void OnMouseWalk(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
     }
 }

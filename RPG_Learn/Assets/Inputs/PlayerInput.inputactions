@@ -6,7 +6,7 @@
             "id": "bd22fcb8-08d0-4199-aaad-5629707e7997",
             "actions": [
                 {
-                    "name": "KeyboardMovement",
+                    "name": "KeyboardWalk",
                     "type": "Value",
                     "id": "805fa781-bf6f-4dd4-b124-271852990d88",
                     "expectedControlType": "Vector2",
@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseMovement",
+                    "name": "MouseWalk",
                     "type": "Button",
                     "id": "e73c7782-ec70-4f3e-8757-429357afdc60",
                     "expectedControlType": "Button",
@@ -52,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMovement",
+                    "action": "KeyboardWalk",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -63,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMovement",
+                    "action": "KeyboardWalk",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -74,7 +74,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMovement",
+                    "action": "KeyboardWalk",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -85,7 +85,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMovement",
+                    "action": "KeyboardWalk",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -96,7 +96,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMovement",
+                    "action": "KeyboardWalk",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -107,7 +107,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseMovement",
+                    "action": "MouseWalk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
