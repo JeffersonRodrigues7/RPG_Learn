@@ -18,6 +18,9 @@ namespace RPG.Player.Movement
         [Tooltip("Velocidade de rotação do jogador")]
         [SerializeField][Min(0)] private float rotationSpeed = 10.0f;
 
+        [Tooltip("Força de pulo")]
+        [SerializeField][Min(0)] private float jumpForce = 10.0f;
+
         [Tooltip("Distância com a qual o jogador consegue interagir com o mapa através do mouse")]
         [SerializeField][Min(0)] private float mouseInputDistance = 50.0f;
 
@@ -41,6 +44,9 @@ namespace RPG.Player.Movement
         private bool isRunning = false; // Flag para determinar se o jogador está correndo
         private int isRunningHash; //Hash da String que se refere a animação de Running
 
+        private bool isJumping = false; // Flag para determinar se o jogador está pulando
+        private int isJumpingHash; //Hash da String que se refere a animação de Jumping
+
         #endregion
 
         #region ==================== BEGIN/END SCRIPT ====================
@@ -59,6 +65,7 @@ namespace RPG.Player.Movement
             // Inicializa hashes das strings usadas para controlar animações e obtém a câmera principal do jogo
             isWalkingHash = Animator.StringToHash("isWalking");
             isRunningHash = Animator.StringToHash("isRunning");
+            isJumpingHash = Animator.StringToHash("isJumping");
             cam = Camera.main;
         }
 
@@ -80,21 +87,44 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
-            updateMoveParameters();
+
+            //updateMoveParameters();
         }
 
         private void FixedUpdate()
         {
-            currentSpeed = isRunning ? runSpeed : walkSpeed; 
+            currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-            if (isMouseMoving) //Se estivermos nos movendo via mouse
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
             {
-                doMouseMovimentation();
-            }
+                Debug.Log("Vamos púlar");
+                navMeshAgent.enabled = false;
+                isJumping = true;
+                //animator.SetBool(isJumpingHash, true);
+                rb.AddForce(Vector3.up * -rb.velocity.y, ForceMode.VelocityChange);
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            } 
 
-            else if(isKeyboardMoving) //Se estivermos no movendo via teclado
+
+            //if (isMouseMoving) //Se estivermos nos movendo via mouse
+            //{
+            //    doMouseMovimentation();
+            //}
+
+            //else if (isKeyboardMoving) //Se estivermos no movendo via teclado
+            //{
+            //    doKeyboardMovimentation();
+            //}
+        }
+
+            // Detecta quando o personagem toca no chão (pode ser necessário configurar colisores ou Raycast para isso).
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
             {
-                doKeyboardMovimentation();
+                isJumping = false;  // O personagem não está mais pulando quando toca no chão.
+                //animator.SetBool(isJumpingHash, false);
+                navMeshAgent.enabled = true;
             }
         }
 
@@ -118,7 +148,10 @@ namespace RPG.Player.Movement
 
             navMeshRemainingPath = true; //Indica que temos um caminho a percorrer 
 
-            navMeshAgent.speed = currentSpeed; // Atualiza a velocidade do NavMeshAgent para a velocidade atual (corrida ou caminhada).
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.speed = currentSpeed; // Atualiza a velocidade do NavMeshAgent para a velocidade atual (corrida ou caminhada).
+            }
         }
 
         //Faz movimentação via teclado
@@ -151,7 +184,6 @@ namespace RPG.Player.Movement
                 // Calcula uma nova rotação com base na direção de movimento desejada.
                 Quaternion newRotation = Quaternion.LookRotation(desiredMoveDirection);
 
-                Debug.Log("Rotacionando");
                 // Aplica uma rotação suave (Slerp) do jogador em direção à nova rotação.
                 transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
 
@@ -161,8 +193,8 @@ namespace RPG.Player.Movement
         //Função responsável por cuidar da animação do jogador
         private void updateMoveParameters()
         {
-            Debug.Log(navMeshAgent.remainingDistance + " - " + navMeshAgent.stoppingDistance);
-            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            //Verifica se o player chegou na posição via navmesh
+            if (navMeshAgent.enabled && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 navMeshAgent.ResetPath();
                 navMeshRemainingPath = false;
@@ -194,7 +226,10 @@ namespace RPG.Player.Movement
         // Move o jogador para a posição de destino usando o NavMeshAgent
         private void MoveToPosition(Vector3 destination)
         {
-            navMeshAgent.SetDestination(destination);
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.SetDestination(destination);
+            }
         }
 
         #endregion
@@ -205,7 +240,10 @@ namespace RPG.Player.Movement
          * Keyboard movemente tem prioridade sobre o MouseMovement*/
         private void KeyboardMove(InputAction.CallbackContext context)
         {
-            navMeshAgent.ResetPath();
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.ResetPath();
+            }
             isMouseMoving = false;
             isKeyboardMoving = true;
             movementPosition = context.ReadValue<Vector2>();
@@ -243,6 +281,21 @@ namespace RPG.Player.Movement
             isRunning = false;
         }
 
+        //Inicia animação de jumping
+        private void Jump(InputAction.CallbackContext context)
+        {
+            //animator.SetBool(isJumpingHash, true);
+            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //isJumping = true;
+        }
+
+        // Chamado quando soltamos o espaço
+        private void StopJump(InputAction.CallbackContext context)
+        {
+            //animator.SetBool(isJumpingHash, false);
+            //isJumping = false;
+        }
+
         #endregion
 
         #region ==================== ENABLE/DISABLE PLAYER INPUTS ====================
@@ -257,6 +310,8 @@ namespace RPG.Player.Movement
             playerInput.CharacterControls.MouseWalk.canceled += StopMouseMove; // Callback para parar o movimento via Mouse
             playerInput.CharacterControls.Run.started += Run; // Callback para iniciar a corrida
             playerInput.CharacterControls.Run.canceled += StopRun; // Callback para parar a corrida
+            playerInput.CharacterControls.Jump.started += Jump; // Callback para iniciar a Pulo
+            playerInput.CharacterControls.Jump.canceled += StopJump; // Callback para indicar que soltamos botão de pulo
         }
 
         // Cancela o registro de callbacks quando o script é desativado
@@ -269,6 +324,8 @@ namespace RPG.Player.Movement
             playerInput.CharacterControls.MouseWalk.canceled -= StopMouseMove;
             playerInput.CharacterControls.Run.started -= Run;
             playerInput.CharacterControls.Run.canceled -= StopRun;
+            playerInput.CharacterControls.Jump.started -= Jump;
+            playerInput.CharacterControls.Jump.canceled -= StopJump;
         }
 
         #endregion
