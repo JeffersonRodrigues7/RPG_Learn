@@ -9,20 +9,15 @@ namespace RPG.Player.Movement
         #region ==================== VARIABLES DECLARATION ====================
 
         [Header("Movimentação")]
-        [Tooltip("Velocidade do jogador ao andar")]
-        [SerializeField][Min(0)] private float walkSpeed = 5.0f;
+        [SerializeField] private float walkSpeed = 5.0f; //Velocidade do jogador ao andar
+        [SerializeField] private float runSpeed = 10.0f; //Velocidade do jogador ao correr
+        [SerializeField] private float rotationSpeed = 10.0f; //Velocidade de rotação do jogador
 
-        [Tooltip("Velocidade do jogador ao correr")]
-        [SerializeField][Min(0)] private float runSpeed = 10.0f;
-
-        [Tooltip("Velocidade de rotação do jogador")]
-        [SerializeField][Min(0)] private float rotationSpeed = 10.0f;
-
-        [Tooltip("Força de pulo")]
-        [SerializeField][Min(0)] private float jumpForce = 10.0f;
+        [SerializeField] private float jumpVelocity = 1.0f; //Velocidade com a qual o objeto irá pular
+        [SerializeField] private float jumpSlowdown = 1.0f; //Valor com o qual o player vai perdendo a velocidade no pulo
 
         [Tooltip("Distância com a qual o jogador consegue interagir com o mapa através do mouse")]
-        [SerializeField][Min(0)] private float mouseInputDistance = 50.0f;
+        [SerializeField] private float mouseInputDistance = 50.0f;
 
         private PlayerInput playerInput; //Componente playerInput
         private Animator animator; //Componente animator
@@ -31,6 +26,7 @@ namespace RPG.Player.Movement
 
         private Camera cam; //Camera principal do jogo
 
+        private Vector3 playerPosition; //Posição atual do player
         private Vector3 movementPosition;  //Posição para qual o player irá se mover
 
         private bool isWalking = false; //Flag que indica que o objetando está se movendo
@@ -45,8 +41,10 @@ namespace RPG.Player.Movement
         private int isRunningHash; //Hash da String que se refere a animação de Running
 
         private bool isJumping = false; // Flag para determinar se o jogador está pulando
+        private bool isFalling = false; // Flag para determinar se o jogador está caindo
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
 
+        private float currentJumpVelocity = 0;
         #endregion
 
         #region ==================== BEGIN/END SCRIPT ====================
@@ -67,6 +65,9 @@ namespace RPG.Player.Movement
             isRunningHash = Animator.StringToHash("isRunning");
             isJumpingHash = Animator.StringToHash("isJumping");
             cam = Camera.main;
+
+            playerPosition = transform.position;
+            currentJumpVelocity = jumpVelocity;
         }
 
         private void OnEnable()
@@ -87,46 +88,51 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
+            //playerPosition = transform.position;
 
-            //updateMoveParameters();
+            //Debug.Log(rb.velocity);
+
+            //if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+            //{  
+            //    isJumping = true;
+            //}
+
+            updateMoveParameters();
         }
 
         private void FixedUpdate()
         {
             currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-            {
-                Debug.Log("Vamos púlar");
-                navMeshAgent.enabled = false;
-                isJumping = true;
-                //animator.SetBool(isJumpingHash, true);
-                rb.AddForce(Vector3.up * -rb.velocity.y, ForceMode.VelocityChange);
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
-            } 
-
-
-            //if (isMouseMoving) //Se estivermos nos movendo via mouse
+            //if (isJumping)
             //{
-            //    doMouseMovimentation();
+            //    currentJumpVelocity -= jumpVelocity * jumpSlowdown * Time.fixedDeltaTime;
+            //    rb.velocity = new Vector3(0, currentJumpVelocity, 0);
             //}
 
-            //else if (isKeyboardMoving) //Se estivermos no movendo via teclado
-            //{
-            //    doKeyboardMovimentation();
-            //}
-        }
-
-            // Detecta quando o personagem toca no chão (pode ser necessário configurar colisores ou Raycast para isso).
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
+            if (isMouseMoving) //Se estivermos nos movendo via mouse
             {
-                isJumping = false;  // O personagem não está mais pulando quando toca no chão.
-                //animator.SetBool(isJumpingHash, false);
-                navMeshAgent.enabled = true;
+                doMouseMovimentation();
+            }
+
+            else if (isKeyboardMoving) //Se estivermos no movendo via teclado
+            {
+                doKeyboardMovimentation();
             }
         }
+
+        ////Detecta quando o personagem toca no chão(pode ser necessário configurar colisores ou Raycast para isso).
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
+        //    {
+        //        currentJumpVelocity = jumpVelocity;
+        //        isJumping = false;  // O personagem não está mais pulando quando toca no chão.
+        //        //animator.SetBool(isJumpingHash, false);
+        //        //navMeshAgent.enabled = true;
+        //        Debug.Log("HERE");
+        //    }
+        //}
 
         #endregion
 
