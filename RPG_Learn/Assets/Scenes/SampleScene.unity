@@ -280,7 +280,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 2
+    m_MaxSpeed: 20
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -378,7 +378,7 @@ MonoBehaviour:
   zAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 100
+    m_MaxSpeed: 25
     m_AccelTime: 0.03
     m_DecelTime: 0.1
     m_InputAxisName: Mouse ScrollWheel
@@ -654,7 +654,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750957903}
-  m_LocalRotation: {x: 0.11553388, y: -0.000000017617166, z: 0.0000000020491018, w: 0.99330354}
+  m_LocalRotation: {x: 0.11553388, y: 0.000000017617161, z: -0.0000000020491013, w: 0.99330354}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -746,7 +746,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.13353485, y: 0.000000017052281, z: -0.0000000022976514, w: 0.9910441}
+  m_LocalRotation: {x: 0.13353485, y: -0.000000017052281, z: 0.0000000022976514, w: 0.9910441}
   m_LocalPosition: {x: 0, y: 3.086, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1328,7 +1328,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126486623}
-  m_LocalRotation: {x: 0.13353485, y: 0.000000008526142, z: -0.0000000011488258, w: 0.9910441}
+  m_LocalRotation: {x: 0.13353485, y: -0.00000000852614, z: 0.0000000011488256, w: 0.9910441}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
