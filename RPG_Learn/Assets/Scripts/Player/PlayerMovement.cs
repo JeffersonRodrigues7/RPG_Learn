@@ -26,7 +26,6 @@ namespace RPG.Player.Movement
 
         private Camera cam; //Camera principal do jogo
 
-        private Vector3 playerPosition; //Posição atual do player
         private Vector3 movementPosition;  //Posição para qual o player irá se mover
 
         private bool isWalking = false; //Flag que indica que o objetando está se movendo
@@ -45,7 +44,6 @@ namespace RPG.Player.Movement
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
 
         private float currentJumpVelocity = 0;
-        private Vector3 currentVelocity = Vector3.zero;
         #endregion
 
         #region ==================== BEGIN/END SCRIPT ====================
@@ -64,11 +62,8 @@ namespace RPG.Player.Movement
             // Inicializa hashes das strings usadas para controlar animações e obtém a câmera principal do jogo
             isWalkingHash = Animator.StringToHash("isWalking");
             isRunningHash = Animator.StringToHash("isRunning");
-            isJumpingHash = Animator.StringToHash("isJumping");
+            isJumpingHash = Animator.StringToHash("TriggerJump");
             cam = Camera.main;
-
-            playerPosition = transform.position;
-            currentJumpVelocity = 0;
         }
 
         private void OnEnable()
@@ -89,16 +84,6 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
-            playerPosition = transform.position;
-
-            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-            {
-                currentJumpVelocity = jumpVelocity;
-                navMeshAgent.enabled = false;
-                isKeyboardMoving = true;
-                isJumping = true;
-            }
-
             updateMoveParameters();
         }
 
@@ -109,7 +94,7 @@ namespace RPG.Player.Movement
             if (isJumping)
             {
                 currentJumpVelocity -= jumpVelocity * jumpSlowdown * Time.fixedDeltaTime;
-                Debug.Log("ere");
+                if (currentJumpVelocity < 0) isFalling = true;
             }
 
             if (isMouseMoving) //Se estivermos nos movendo via mouse
@@ -117,22 +102,22 @@ namespace RPG.Player.Movement
                 doMouseMovimentation();
             }
 
-            else if (isKeyboardMoving) //Se estivermos no movendo via teclado
+            else if (isKeyboardMoving || isJumping) //Se estivermos no movendo via teclado
             {
                 doKeyboardMovimentation();
             }
 
-            Debug.Log(rb.velocity);
+            //Debug.Log(rb.velocity);
         }
 
         //Detecta quando o personagem toca no chão(pode ser necessário configurar colisores ou Raycast para isso).
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
+            if (isFalling && collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
             {
                 currentJumpVelocity = 0;
                 isJumping = false;  // O personagem não está mais pulando quando toca no chão.
-                //animator.SetBool(isJumpingHash, false);
+                isFalling = false;
                 navMeshAgent.enabled = true;
             }
         }
@@ -211,15 +196,15 @@ namespace RPG.Player.Movement
 
             isWalking = isKeyboardMoving || isMouseMoving || navMeshRemainingPath;
 
-            if (isWalking && isRunning)
+            if (isWalking && isRunning) //Correndo
             {
                 updateMoveAnimation(true, true);
             }
-            else if (isWalking)
+            else if (isWalking) //Andando
             {
                 updateMoveAnimation(true, false);
             }
-            else
+            else //Parado
             {
                 updateMoveAnimation(false, false);
             }
@@ -293,9 +278,10 @@ namespace RPG.Player.Movement
         //Inicia animação de jumping
         private void Jump(InputAction.CallbackContext context)
         {
-            //animator.SetBool(isJumpingHash, true);
-            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //isJumping = true;
+            if (!isJumping)
+            {
+                animator.SetTrigger(isJumpingHash);
+            }
         }
 
         // Chamado quando soltamos o espaço
@@ -306,6 +292,15 @@ namespace RPG.Player.Movement
         }
 
         #endregion
+
+        public void startJump()
+        {
+            Debug.Log("Here");
+            currentJumpVelocity = jumpVelocity;
+            navMeshAgent.enabled = false;
+            isFalling = false;
+            isJumping = true;
+        }
 
         #region ==================== ENABLE/DISABLE PLAYER INPUTS ====================
 
