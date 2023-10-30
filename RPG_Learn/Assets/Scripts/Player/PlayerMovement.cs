@@ -45,6 +45,7 @@ namespace RPG.Player.Movement
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
 
         private float currentJumpVelocity = 0;
+        private Vector3 currentVelocity = Vector3.zero;
         #endregion
 
         #region ==================== BEGIN/END SCRIPT ====================
@@ -67,7 +68,7 @@ namespace RPG.Player.Movement
             cam = Camera.main;
 
             playerPosition = transform.position;
-            currentJumpVelocity = jumpVelocity;
+            currentJumpVelocity = 0;
         }
 
         private void OnEnable()
@@ -88,14 +89,15 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
-            //playerPosition = transform.position;
+            playerPosition = transform.position;
 
-            //Debug.Log(rb.velocity);
-
-            //if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-            //{  
-            //    isJumping = true;
-            //}
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+            {
+                currentJumpVelocity = jumpVelocity;
+                navMeshAgent.enabled = false;
+                isKeyboardMoving = true;
+                isJumping = true;
+            }
 
             updateMoveParameters();
         }
@@ -104,11 +106,11 @@ namespace RPG.Player.Movement
         {
             currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-            //if (isJumping)
-            //{
-            //    currentJumpVelocity -= jumpVelocity * jumpSlowdown * Time.fixedDeltaTime;
-            //    rb.velocity = new Vector3(0, currentJumpVelocity, 0);
-            //}
+            if (isJumping)
+            {
+                currentJumpVelocity -= jumpVelocity * jumpSlowdown * Time.fixedDeltaTime;
+                Debug.Log("ere");
+            }
 
             if (isMouseMoving) //Se estivermos nos movendo via mouse
             {
@@ -119,20 +121,21 @@ namespace RPG.Player.Movement
             {
                 doKeyboardMovimentation();
             }
+
+            Debug.Log(rb.velocity);
         }
 
-        ////Detecta quando o personagem toca no chão(pode ser necessário configurar colisores ou Raycast para isso).
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
-        //    {
-        //        currentJumpVelocity = jumpVelocity;
-        //        isJumping = false;  // O personagem não está mais pulando quando toca no chão.
-        //        //animator.SetBool(isJumpingHash, false);
-        //        //navMeshAgent.enabled = true;
-        //        Debug.Log("HERE");
-        //    }
-        //}
+        //Detecta quando o personagem toca no chão(pode ser necessário configurar colisores ou Raycast para isso).
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
+            {
+                currentJumpVelocity = 0;
+                isJumping = false;  // O personagem não está mais pulando quando toca no chão.
+                //animator.SetBool(isJumpingHash, false);
+                navMeshAgent.enabled = true;
+            }
+        }
 
         #endregion
 
@@ -182,7 +185,7 @@ namespace RPG.Player.Movement
             Vector3 desiredMoveDirection = cameraForward * movementInputDirection.z + cameraRight * movementInputDirection.x;
 
             // Define a velocidade do Rigidbody com base na direção de movimento desejada e na velocidade atual.
-            rb.velocity = desiredMoveDirection * currentSpeed;
+            rb.velocity = new Vector3(desiredMoveDirection.x * currentSpeed, currentJumpVelocity, desiredMoveDirection.z * currentSpeed);
 
             // Se houver uma direção de movimento (diferente de zero), realiza a rotação do jogador.
             if (movementInputDirection != Vector3.zero)
