@@ -6,18 +6,17 @@ namespace RPG.Player.Movement
 {
     public class PlayerMovement : MonoBehaviour
     {
-        #region ==================== VARIABLES DECLARATION ====================
+        #region VARIABLES DECLARATION
 
         [Header("Movimentação")]
         [SerializeField] private float walkSpeed = 5.0f; //Velocidade do jogador ao andar
         [SerializeField] private float runSpeed = 10.0f; //Velocidade do jogador ao correr
         [SerializeField] private float rotationSpeed = 10.0f; //Velocidade de rotação do jogador
 
-        [SerializeField] private float jumpVelocity = 1.0f; //Velocidade com a qual o objeto irá pular
+        [SerializeField] private float jumpForce = 2.0f; //Força com a qual o objeto irá pular
         [SerializeField] private float jumpSlowdown = 1.0f; //Valor com o qual o player vai perdendo a velocidade no pulo
 
-        [Tooltip("Distância com a qual o jogador consegue interagir com o mapa através do mouse")]
-        [SerializeField] private float mouseInputDistance = 50.0f;
+        [SerializeField] private float mouseInputDistance = 50.0f; //Distância com a qual o jogador consegue interagir com o mapa através do mouse
 
         private PlayerInput playerInput; //Componente playerInput
         private Animator animator; //Componente animator
@@ -30,7 +29,8 @@ namespace RPG.Player.Movement
 
         private bool isWalking = false; //Flag que indica que o objetando está se movendo
         private float currentSpeed = 3.0f; //Velocidade atual do jogador
-        private bool navMeshRemainingPath = false; // Flag que indica se o objeto deve continuar a se movimentar
+        private float currentjumpVelocity = 0; //Velocidade do objeto atual nop ar
+        private bool navMeshRemainingPath = false; // Flag que indica se o objeto deve continuar a se movimentar com o navmesh
 
         private bool isKeyboardMoving = false;  // Flag para determinar se o jogador está andando via teclado
         private bool isMouseMoving = false;  // Flag para determinar se o jogador está andando via mouse
@@ -42,11 +42,9 @@ namespace RPG.Player.Movement
         private bool isJumping = false; // Flag para determinar se o jogador está pulando
         private bool isFalling = false; // Flag para determinar se o jogador está caindo
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
-
-        private float currentJumpVelocity = 0;
         #endregion
 
-        #region ==================== BEGIN/END SCRIPT ====================
+        #region  BEGIN/END SCRIPT
 
         private void Awake()
         {
@@ -80,7 +78,7 @@ namespace RPG.Player.Movement
 
         #endregion
 
-        #region ==================== UPDATES ====================
+        #region  UPDATES 
 
         private void Update()
         {
@@ -91,10 +89,10 @@ namespace RPG.Player.Movement
         {
             currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-            if (isJumping)
+            if (isJumping) //Player está pulando
             {
-                currentJumpVelocity -= jumpVelocity * jumpSlowdown * Time.fixedDeltaTime;
-                if (currentJumpVelocity < 0) isFalling = true;
+                currentjumpVelocity -= jumpForce * jumpSlowdown * Time.fixedDeltaTime; //Diminuindo a velocidade do player no ar
+                if (currentjumpVelocity < 0) isFalling = true; //Player começa a cair
             }
 
             if (isMouseMoving) //Se estivermos nos movendo via mouse
@@ -106,25 +104,11 @@ namespace RPG.Player.Movement
             {
                 doKeyboardMovimentation();
             }
-
-            //Debug.Log(rb.velocity);
-        }
-
-        //Detecta quando o personagem toca no chão(pode ser necessário configurar colisores ou Raycast para isso).
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (isFalling && collision.gameObject.CompareTag("Ground"))  // "Ground" é a tag do objeto que representa o chão.
-            {
-                currentJumpVelocity = 0;
-                isJumping = false;  // O personagem não está mais pulando quando toca no chão.
-                isFalling = false;
-                navMeshAgent.enabled = true;
-            }
         }
 
         #endregion
 
-        #region ==================== MOVIMENTAÇÃO ====================
+        #region  MOVIMENTAÇÃO 
 
         //Faz movimentação via Mouse
         private void doMouseMovimentation()
@@ -170,7 +154,7 @@ namespace RPG.Player.Movement
             Vector3 desiredMoveDirection = cameraForward * movementInputDirection.z + cameraRight * movementInputDirection.x;
 
             // Define a velocidade do Rigidbody com base na direção de movimento desejada e na velocidade atual.
-            rb.velocity = new Vector3(desiredMoveDirection.x * currentSpeed, currentJumpVelocity, desiredMoveDirection.z * currentSpeed);
+            rb.velocity = new Vector3(desiredMoveDirection.x * currentSpeed, currentjumpVelocity, desiredMoveDirection.z * currentSpeed);
 
             // Se houver uma direção de movimento (diferente de zero), realiza a rotação do jogador.
             if (movementInputDirection != Vector3.zero)
@@ -228,7 +212,39 @@ namespace RPG.Player.Movement
 
         #endregion
 
-        #region ==================== CALLBACKS DE INPUT ====================
+        #region  FUNÇÕES DE ANIMAÇÃO
+
+        //Função chamada a partir de um determinado frame da animação de Jump
+        public void startJump()
+        {
+            Debug.Log("Inicio do pulo");
+            //Setando valores iniciais do pulo
+            currentjumpVelocity = jumpForce;
+            navMeshAgent.enabled = false;
+            isFalling = false;
+            isJumping = true;
+        }
+
+        #endregion
+
+        #region  COLISÕES
+
+        //Detecta quando o personagem toca no chão
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (isFalling && collision.gameObject.CompareTag("Ground"))  // Para que haja a detecção o player precisa estar caindo, caso contrário ele pode detectar quando o player está tentando pular
+            {
+                //Reseta valores
+                currentjumpVelocity = 0;
+                isJumping = false;
+                isFalling = false;
+                navMeshAgent.enabled = true;
+            }
+        }
+
+        #endregion
+
+        #region  CALLBACKS DE INPUT 
 
         /**Callback que reseta o caminho do NavMeshAgent, ativa a flag de movimento via teclado e atualiza a posição de movimento, 
          * Keyboard movemente tem prioridade sobre o MouseMovement*/
@@ -278,6 +294,7 @@ namespace RPG.Player.Movement
         //Inicia animação de jumping
         private void Jump(InputAction.CallbackContext context)
         {
+            Debug.Log("Hre");
             if (!isJumping)
             {
                 animator.SetTrigger(isJumpingHash);
@@ -293,16 +310,8 @@ namespace RPG.Player.Movement
 
         #endregion
 
-        public void startJump()
-        {
-            Debug.Log("Here");
-            currentJumpVelocity = jumpVelocity;
-            navMeshAgent.enabled = false;
-            isFalling = false;
-            isJumping = true;
-        }
 
-        #region ==================== ENABLE/DISABLE PLAYER INPUTS ====================
+        #region  ENABLE/DISABLE PLAYER INPUTS 
 
         // Registra callbacks para as entradas
         private void enablePlayerInputs()
