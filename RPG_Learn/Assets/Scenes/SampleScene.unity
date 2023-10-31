@@ -280,7 +280,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 20
+    m_MaxSpeed: 10
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -1421,6 +1421,10 @@ PrefabInstance:
       propertyPath: ground_check
       value: 
       objectReference: {fileID: 458819561}
+    - target: {fileID: 4364319784330826392, guid: 99ee741b8243bbf4e9465369008ef70c, type: 3}
+      propertyPath: jumpSlowdown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4364319784330826392, guid: 99ee741b8243bbf4e9465369008ef70c, type: 3}
       propertyPath: jumpVelocity
       value: 2

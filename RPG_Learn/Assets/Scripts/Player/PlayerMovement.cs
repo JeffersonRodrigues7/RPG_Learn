@@ -42,6 +42,12 @@ namespace RPG.Player.Movement
         private bool isJumping = false; // Flag para determinar se o jogador está pulando
         private bool isFalling = false; // Flag para determinar se o jogador está caindo
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
+
+        private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
+        private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
+
+
+
         #endregion
 
         #region  BEGIN/END SCRIPT
@@ -61,6 +67,7 @@ namespace RPG.Player.Movement
             isWalkingHash = Animator.StringToHash("isWalking");
             isRunningHash = Animator.StringToHash("isRunning");
             isJumpingHash = Animator.StringToHash("TriggerJump");
+            isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
             cam = Camera.main;
         }
 
@@ -217,7 +224,6 @@ namespace RPG.Player.Movement
         //Função chamada a partir de um determinado frame da animação de Jump
         public void startJump()
         {
-            Debug.Log("Inicio do pulo");
             //Setando valores iniciais do pulo
             currentjumpVelocity = jumpForce;
             navMeshAgent.enabled = false;
@@ -291,21 +297,33 @@ namespace RPG.Player.Movement
             isRunning = false;
         }
 
-        //Inicia animação de jumping
+        //Inicia pulo
         private void Jump(InputAction.CallbackContext context)
         {
-            Debug.Log("Hre");
             if (!isJumping)
             {
                 animator.SetTrigger(isJumpingHash);
             }
         }
 
-        // Chamado quando soltamos o espaço
+        // Chamado quando soltamos o botão de pulo
         private void StopJump(InputAction.CallbackContext context)
         {
-            //animator.SetBool(isJumpingHash, false);
-            //isJumping = false;
+
+        }
+
+        //Inicia animação de melee attack
+        private void MeleeAttack(InputAction.CallbackContext context)
+        {
+            Debug.Log("Attack");
+            animator.SetTrigger(isMeleeAttackingHash);
+            isMeleeAttacking = true;
+        }
+
+        // Chamado quando soltamos o botão de melee attack
+        private void StopMeleeAttack(InputAction.CallbackContext context)
+        {
+            
         }
 
         #endregion
@@ -325,6 +343,8 @@ namespace RPG.Player.Movement
             playerInput.CharacterControls.Run.canceled += StopRun; // Callback para parar a corrida
             playerInput.CharacterControls.Jump.started += Jump; // Callback para iniciar a Pulo
             playerInput.CharacterControls.Jump.canceled += StopJump; // Callback para indicar que soltamos botão de pulo
+            playerInput.CharacterControls.MeleeAttack.started += MeleeAttack; // Callback para iniciar o Melee Attack
+            playerInput.CharacterControls.MeleeAttack.canceled += StopMeleeAttack; // Callback para indicar que soltamos botão de melee attack
         }
 
         // Cancela o registro de callbacks quando o script é desativado
@@ -339,6 +359,8 @@ namespace RPG.Player.Movement
             playerInput.CharacterControls.Run.canceled -= StopRun;
             playerInput.CharacterControls.Jump.started -= Jump;
             playerInput.CharacterControls.Jump.canceled -= StopJump;
+            playerInput.CharacterControls.MeleeAttack.started -= MeleeAttack; 
+            playerInput.CharacterControls.MeleeAttack.canceled -= StopMeleeAttack;
         }
 
         #endregion
