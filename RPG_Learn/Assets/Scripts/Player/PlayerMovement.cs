@@ -18,7 +18,6 @@ namespace RPG.Player.Movement
 
         [SerializeField] private float mouseInputDistance = 50.0f; //Distância com a qual o jogador consegue interagir com o mapa através do mouse
 
-        private PlayerInput playerInput; //Componente playerInput
         private Animator animator; //Componente animator
         private Rigidbody rb; //Componente rigidibody
         private NavMeshAgent navMeshAgent; //Componente navMeshAgent
@@ -43,11 +42,6 @@ namespace RPG.Player.Movement
         private bool isFalling = false; // Flag para determinar se o jogador está caindo
         private int isJumpingHash; //Hash da String que se refere a animação de Jumping
 
-        private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
-        private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
-
-
-
         #endregion
 
         #region  BEGIN/END SCRIPT
@@ -55,7 +49,6 @@ namespace RPG.Player.Movement
         private void Awake()
         {
             // Inicializa os componentes e variáveis necessárias quando o objeto é criado
-            playerInput = new PlayerInput();
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -67,20 +60,7 @@ namespace RPG.Player.Movement
             isWalkingHash = Animator.StringToHash("isWalking");
             isRunningHash = Animator.StringToHash("isRunning");
             isJumpingHash = Animator.StringToHash("TriggerJump");
-            isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
             cam = Camera.main;
-        }
-
-        private void OnEnable()
-        {
-            // Ativa o registro de inputs do jogador
-            enablePlayerInputs();
-        }
-
-        private void OnDisable()
-        {
-            // Desativa o registro de inputs do jogador
-            disablePlayerInputs();
         }
 
         #endregion
@@ -254,7 +234,7 @@ namespace RPG.Player.Movement
 
         /**Callback que reseta o caminho do NavMeshAgent, ativa a flag de movimento via teclado e atualiza a posição de movimento, 
          * Keyboard movemente tem prioridade sobre o MouseMovement*/
-        private void KeyboardMove(InputAction.CallbackContext context)
+        public void KeyboardMove(InputAction.CallbackContext context)
         {
             if (navMeshAgent.enabled)
             {
@@ -266,39 +246,39 @@ namespace RPG.Player.Movement
         }
 
         // Desativa a flag de movimento via teclado, reseta a posição de movimento e para a animação de corrida
-        private void StopKeyboardMove(InputAction.CallbackContext context)
+        public void StopKeyboardMove(InputAction.CallbackContext context)
         {
             isKeyboardMoving = false;
             movementPosition = Vector2.zero;
         }
 
         // Ativa a flag de movimento via mouse e a animação de caminhar
-        private void MouseMove(InputAction.CallbackContext context)
+        public void MouseMove(InputAction.CallbackContext context)
         {
             isMouseMoving = true;
         }
 
         // Desativa a flag de movimento via mouse, reseta a posição de movimento e para a animação de corrida
-        private void StopMouseMove(InputAction.CallbackContext context)
+        public void StopMouseMove(InputAction.CallbackContext context)
         {
             isMouseMoving = false;
             movementPosition = Vector2.zero;
         }
 
         // Define a flag de corrida como verdadeira e inicia a animação de corrida
-        private void Run(InputAction.CallbackContext context)
+        public void Run(InputAction.CallbackContext context)
         {
             isRunning = true;
         }
 
         // Para a animação de corrida, chamado quando usuário solta o shift ou quando para de andar
-        private void StopRun(InputAction.CallbackContext context)
+        public void StopRun(InputAction.CallbackContext context)
         {
             isRunning = false;
         }
 
         //Inicia pulo
-        private void Jump(InputAction.CallbackContext context)
+        public void Jump(InputAction.CallbackContext context)
         {
             if (!isJumping)
             {
@@ -307,62 +287,10 @@ namespace RPG.Player.Movement
         }
 
         // Chamado quando soltamos o botão de pulo
-        private void StopJump(InputAction.CallbackContext context)
+        public void StopJump(InputAction.CallbackContext context)
         {
 
         }
-
-        //Inicia animação de melee attack
-        private void MeleeAttack(InputAction.CallbackContext context)
-        {
-            Debug.Log("Attack");
-            animator.SetTrigger(isMeleeAttackingHash);
-            isMeleeAttacking = true;
-        }
-
-        // Chamado quando soltamos o botão de melee attack
-        private void StopMeleeAttack(InputAction.CallbackContext context)
-        {
-            
-        }
-
-        #endregion
-
-
-        #region  ENABLE/DISABLE PLAYER INPUTS 
-
-        // Registra callbacks para as entradas
-        private void enablePlayerInputs()
-        {
-            playerInput.Enable();
-            playerInput.CharacterControls.KeyboardWalk.performed += KeyboardMove; // Callback de entrada de movimento via teclado
-            playerInput.CharacterControls.KeyboardWalk.canceled += StopKeyboardMove; // Callback para parar o movimento via teclado
-            playerInput.CharacterControls.MouseWalk.performed += MouseMove; // Callback de entrada de movimento via Mouse
-            playerInput.CharacterControls.MouseWalk.canceled += StopMouseMove; // Callback para parar o movimento via Mouse
-            playerInput.CharacterControls.Run.started += Run; // Callback para iniciar a corrida
-            playerInput.CharacterControls.Run.canceled += StopRun; // Callback para parar a corrida
-            playerInput.CharacterControls.Jump.started += Jump; // Callback para iniciar a Pulo
-            playerInput.CharacterControls.Jump.canceled += StopJump; // Callback para indicar que soltamos botão de pulo
-            playerInput.CharacterControls.MeleeAttack.started += MeleeAttack; // Callback para iniciar o Melee Attack
-            playerInput.CharacterControls.MeleeAttack.canceled += StopMeleeAttack; // Callback para indicar que soltamos botão de melee attack
-        }
-
-        // Cancela o registro de callbacks quando o script é desativado
-        private void disablePlayerInputs()
-        {
-            playerInput.Disable();
-            playerInput.CharacterControls.KeyboardWalk.performed -= KeyboardMove;
-            playerInput.CharacterControls.KeyboardWalk.canceled -= StopKeyboardMove;
-            playerInput.CharacterControls.MouseWalk.performed -= MouseMove;
-            playerInput.CharacterControls.MouseWalk.canceled -= StopMouseMove;
-            playerInput.CharacterControls.Run.started -= Run;
-            playerInput.CharacterControls.Run.canceled -= StopRun;
-            playerInput.CharacterControls.Jump.started -= Jump;
-            playerInput.CharacterControls.Jump.canceled -= StopJump;
-            playerInput.CharacterControls.MeleeAttack.started -= MeleeAttack; 
-            playerInput.CharacterControls.MeleeAttack.canceled -= StopMeleeAttack;
-        }
-
         #endregion
     }
 }
