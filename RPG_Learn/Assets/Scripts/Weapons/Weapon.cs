@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+
+namespace RPG.Weapon
 {
-    private void OnTriggerEnter(Collider other)
+    public class Weapon : MonoBehaviour
     {
-        Debug.Log(other.name);
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.name);
+        }
     }
+
 }
