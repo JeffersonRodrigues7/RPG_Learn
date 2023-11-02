@@ -10,7 +10,7 @@ namespace RPG.Player.Attack
     {
         #region VARIABLES DECLARATION
         [SerializeField] private GameObject weaponPrefab;
-        [SerializeField] private Transform weaponPosition;
+        [SerializeField] private Transform rightHandTransform;
 
         private Animator animator; //Componente animator
 
@@ -31,8 +31,15 @@ namespace RPG.Player.Attack
         {
             // Inicializa hashes das strings usadas para controlar animações
             isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
+            spawnWeapon();
         }
         #endregion
+
+
+        private void spawnWeapon()
+        {
+            Instantiate(weaponPrefab, rightHandTransform);
+        }
 
         #region  CALLBACKS DE INPUT 
 
