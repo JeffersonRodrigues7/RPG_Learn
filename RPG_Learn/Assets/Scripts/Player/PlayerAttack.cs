@@ -9,6 +9,9 @@ namespace RPG.Player.Attack
     public class PlayerAttack : MonoBehaviour
     {
         #region VARIABLES DECLARATION
+        [SerializeField] private GameObject weaponPrefab;
+        [SerializeField] private Transform weaponPosition;
+
         private Animator animator; //Componente animator
 
         private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
@@ -27,7 +30,6 @@ namespace RPG.Player.Attack
         private void Start()
         {
             // Inicializa hashes das strings usadas para controlar animações
-            Debug.Log("hERE");
             isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
         }
         #endregion
@@ -37,7 +39,6 @@ namespace RPG.Player.Attack
         //Inicia animação de melee attack
         public void MeleeAttack(InputAction.CallbackContext context)
         {
-            Debug.Log("Attack");
             animator.SetTrigger(isMeleeAttackingHash);
             isMeleeAttacking = true;
         }
