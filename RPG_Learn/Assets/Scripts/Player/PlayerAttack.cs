@@ -49,13 +49,13 @@ namespace RPG.Player.Attack
 
         #region  FUNÇÕES DE ANIMAÇÃO
         //Chamado através da animação de ataque
-        public void ActiveAttack()
+        public void activeAttack()
         {
             playerWeapon.IsAttacking = true;
         }
 
         //Chamado através da animação de ataque
-        public void DesactiveAttack()
+        public void desactiveAttack()
         {
             isMeleeAttacking = false;
             playerWeapon.IsAttacking = false;
