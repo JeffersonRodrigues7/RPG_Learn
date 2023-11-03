@@ -11,15 +11,9 @@ namespace RPG.Player.InputController
     public class PlayerInputController : MonoBehaviour
     {
 
-        #region VARIABLES DECLARATION
-
         private PlayerInput playerInput; //Componente playerInput
         private PlayerMovement playerMovement;
         private PlayerAttack playerAttack;
-
-        #endregion
-
-        #region  BEGIN/END SCRIPT
 
         private void Awake()
         {
@@ -41,9 +35,6 @@ namespace RPG.Player.InputController
             disablePlayerInputs();
         }
 
-        #endregion
-
-        #region  ENABLE/DISABLE INPUT
         // Registra callbacks para as entradas
         private void enablePlayerInputs()
         {
@@ -76,8 +67,6 @@ namespace RPG.Player.InputController
             playerInput.CharacterControls.MeleeAttack.started -= playerAttack.MeleeAttack;
             playerInput.CharacterControls.MeleeAttack.canceled -= playerAttack.StopMeleeAttack;
         }
-
-        #endregion
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Character.Health;
 
 
 namespace RPG.Player.Weapon
@@ -15,7 +16,11 @@ namespace RPG.Player.Weapon
         {
             if (isAttacking)
             {
-                Debug.Log(other.name);
+                CharacterHealth characterHealth = other.gameObject?.GetComponent<CharacterHealth>();
+                if(characterHealth != null)
+                {
+                    characterHealth.TakeDamage(10f);
+                }
             }  
         }
     }
