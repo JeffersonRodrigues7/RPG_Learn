@@ -1,3 +1,4 @@
+using RPG.Player.Weapon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,13 @@ namespace RPG.Player.Attack
         [SerializeField] private Transform rightHandTransform;
 
         private Animator animator; //Componente animator
+        private GameObject weapon;
+        private PlayerWeapon playerWeapon;
 
         private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
         private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
+
+        public bool IsMeleeAttacking { get { return isMeleeAttacking; } }
 
         #endregion
 
@@ -33,13 +38,29 @@ namespace RPG.Player.Attack
             isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
             spawnWeapon();
         }
-        #endregion
-
 
         private void spawnWeapon()
         {
-            Instantiate(weaponPrefab, rightHandTransform);
+            weapon = Instantiate(weaponPrefab, rightHandTransform);
+            if(weapon != null) playerWeapon = weapon.GetComponent<PlayerWeapon>();
         }
+
+        #endregion
+
+        #region  FUNÇÕES DE ANIMAÇÃO
+        //Chamado através da animação de ataque
+        public void ActiveAttack()
+        {
+            playerWeapon.IsAttacking = true;
+        }
+
+        //Chamado através da animação de ataque
+        public void DesactiveAttack()
+        {
+            isMeleeAttacking = false;
+            playerWeapon.IsAttacking = false;
+        }
+        #endregion
 
         #region  CALLBACKS DE INPUT 
 
