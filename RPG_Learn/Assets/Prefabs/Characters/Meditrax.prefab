@@ -850,10 +850,10 @@ GameObject:
   m_Component:
   - component: {fileID: 63937254902706661}
   - component: {fileID: 6197808836730842015}
-  - component: {fileID: 8419030035691033661}
-  - component: {fileID: 1907282962250674556}
   - component: {fileID: 8894129058450395763}
   - component: {fileID: 2581092224606167744}
+  - component: {fileID: 8419030035691033661}
+  - component: {fileID: 1907282962250674556}
   - component: {fileID: 8963755993720859070}
   m_Layer: 0
   m_Name: Meditrax
@@ -899,6 +899,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8894129058450395763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840192036602899295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 257d557fcfded5047885c07033a55627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorOverrideController: {fileID: 22100000, guid: 2f4b3100c9207e445b20bd9d22ea8411, type: 2}
+--- !u!114 &2581092224606167744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840192036602899295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d96d26a5dc63146a94ccb61f6d3c20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthSlider: {fileID: 246137427}
 --- !u!54 &8419030035691033661
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -912,7 +940,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &1907282962250674556
@@ -929,33 +957,6 @@ CapsuleCollider:
   m_Height: 1.9267161
   m_Direction: 1
   m_Center: {x: 0, y: 0.886642, z: 0}
---- !u!114 &8894129058450395763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840192036602899295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 257d557fcfded5047885c07033a55627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2581092224606167744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840192036602899295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d96d26a5dc63146a94ccb61f6d3c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
-  healthSlider: {fileID: 246137427}
 --- !u!195 &8963755993720859070
 NavMeshAgent:
   m_ObjectHideFlags: 0
