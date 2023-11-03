@@ -100,6 +100,7 @@ namespace RPG.Player.Movement
         //Faz movimentação via Mouse
         private void doMouseMovimentation()
         {
+
             // Cria um raio a partir da posição do mouse convertida para o espaço da tela.
             Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -141,7 +142,7 @@ namespace RPG.Player.Movement
             Vector3 desiredMoveDirection = cameraForward * movementInputDirection.z + cameraRight * movementInputDirection.x;
 
             // Define a velocidade do Rigidbody com base na direção de movimento desejada e na velocidade atual.
-            rb.velocity = new Vector3(desiredMoveDirection.x * currentSpeed, currentjumpVelocity, desiredMoveDirection.z * currentSpeed);
+            rb.velocity = new Vector3(desiredMoveDirection.x * currentSpeed, currentjumpVelocity, desiredMoveDirection.z * currentSpeed) ;
 
             // Se houver uma direção de movimento (diferente de zero), realiza a rotação do jogador.
             if (movementInputDirection != Vector3.zero)
@@ -150,7 +151,7 @@ namespace RPG.Player.Movement
                 Quaternion newRotation = Quaternion.LookRotation(desiredMoveDirection);
 
                 // Aplica uma rotação suave (Slerp) do jogador em direção à nova rotação.
-                transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.fixedDeltaTime);
 
             }
         }
@@ -239,7 +240,9 @@ namespace RPG.Player.Movement
             if (navMeshAgent.enabled)
             {
                 navMeshAgent.ResetPath();
+                navMeshAgent.enabled = false; //Quando o navmesh fica ligado enquanto nos movemos com o mouse, aparece o efeito de jitter
             }
+
             isMouseMoving = false;
             isKeyboardMoving = true;
             movementPosition = context.ReadValue<Vector2>();
@@ -250,19 +253,26 @@ namespace RPG.Player.Movement
         {
             isKeyboardMoving = false;
             movementPosition = Vector2.zero;
+            navMeshAgent.enabled = true;//Habilita navmesh novamente
         }
 
         // Ativa a flag de movimento via mouse e a animação de caminhar
         public void MouseMove(InputAction.CallbackContext context)
         {
-            isMouseMoving = true;
+            if (!isKeyboardMoving)
+            {
+                isMouseMoving = true;
+            }
         }
 
         // Desativa a flag de movimento via mouse, reseta a posição de movimento e para a animação de corrida
         public void StopMouseMove(InputAction.CallbackContext context)
         {
-            isMouseMoving = false;
-            movementPosition = Vector2.zero;
+            if (isMouseMoving)
+            {
+                isMouseMoving = false;
+                movementPosition = Vector2.zero;
+            }
         }
 
         // Define a flag de corrida como verdadeira e inicia a animação de corrida

@@ -9,23 +9,26 @@ namespace RPG.Character.Health
     {
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float currentHealth;
+        [SerializeField] private Slider healthSlider;
 
-        public Slider healthSlider;
-
-        void Start()
+        private void Start()
         {
+            if(healthSlider == null)
+            {
+                healthSlider = GetComponentInChildren<Slider>();
+            }
+
             currentHealth = maxHealth;
-            UpdateHealthUI();
+            updateHealthUI();
         }
 
-        public void TakeDamage(float damage)
+        public void takeDamage(float damage)
         {
-            Debug.Log(damage);
             currentHealth -= damage;
-            UpdateHealthUI();
+            updateHealthUI();
         }
 
-        void UpdateHealthUI()
+        private void updateHealthUI()
         {
             if (healthSlider != null)
             {

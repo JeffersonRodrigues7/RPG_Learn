@@ -19,7 +19,7 @@ namespace RPG.Player.Weapon
                 CharacterHealth characterHealth = other.gameObject?.GetComponent<CharacterHealth>();
                 if(characterHealth != null)
                 {
-                    characterHealth.TakeDamage(10f);
+                    characterHealth.takeDamage(10f);
                 }
             }  
         }
