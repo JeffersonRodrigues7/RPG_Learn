@@ -727,7 +727,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750957903}
-  m_LocalRotation: {x: 0.10917738, y: 0.000000017629906, z: -0.0000000019363622, w: 0.9940223}
+  m_LocalRotation: {x: 0.10917738, y: -0.00000001762991, z: 0.0000000019363626, w: 0.9940223}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -942,26 +942,6 @@ PrefabInstance:
     - target: {fileID: 840192036602899295, guid: 20f893712480346428aade7ebf309aa0, type: 3}
       propertyPath: m_Name
       value: Meditrax
-      objectReference: {fileID: 0}
-    - target: {fileID: 6197808836730842015, guid: 20f893712480346428aade7ebf309aa0, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 349b7dc74bf8e37439016abbe3197fd7, type: 2}
-    - target: {fileID: 7618887959828277385, guid: 20f893712480346428aade7ebf309aa0, type: 3}
-      propertyPath: m_Radius
-      value: 5.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 7618887959828277385, guid: 20f893712480346428aade7ebf309aa0, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7618887959828277385, guid: 20f893712480346428aade7ebf309aa0, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8891957778221542803, guid: 20f893712480346428aade7ebf309aa0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20f893712480346428aade7ebf309aa0, type: 3}

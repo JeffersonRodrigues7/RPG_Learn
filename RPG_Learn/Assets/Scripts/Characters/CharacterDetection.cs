@@ -11,9 +11,9 @@ public class CharacterDetection : MonoBehaviour
     private CharacterMovement characterMovement;
     private SphereCollider detectionCollider;
 
-    Transform target;
+    private Transform target;
 
-    void Start()
+    private void Start()
     {
         characterMovement = GetComponentInParent<CharacterMovement>();
         detectionCollider = GetComponent<SphereCollider>(); // Obtenha o Collider do campo de detecção.
@@ -24,22 +24,22 @@ public class CharacterDetection : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         // Verifique se o objeto que entrou no campo de detecção é o jogador.
         if (other.CompareTag("Player"))
         {
             target = other.transform;
-            characterMovement.startMoving(target);
+            characterMovement.startChase(target);
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         // Verifique se o objeto que saiu do campo de detecção é o jogador.
         if (other.CompareTag("Player"))
         {
-            characterMovement.stopMoving();
+            characterMovement.stopChase();
         }
     }
 
