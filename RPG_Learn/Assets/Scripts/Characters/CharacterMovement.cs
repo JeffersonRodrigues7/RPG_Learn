@@ -11,33 +11,41 @@ namespace RPG.Character.Movement
 
         private Animator animator; //Componente animator
         private NavMeshAgent navMeshAgent;
-        private Transform player;
-        
+        private Transform target;
 
+        private bool isMoving;
         private int isWalkingHash; //Hash da String que se refere a animação de Walk
 
-        void Start()
+        private void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
 
-            player = GameObject.FindGameObjectWithTag("Player").transform; //Capturando objeto
-
-
-
             isWalkingHash = Animator.StringToHash("isWalking");
             animator.runtimeAnimatorController = animatorOverrideController;
-
-
-            animator.SetBool(isWalkingHash, true);//Para que ele chegue na animação de correr, é necessário que esteja andando
         }
 
-        void Update()
+        private void Update()
         {
-            if (player != null)
+            if (target != null && isMoving)
             {
-                navMeshAgent.SetDestination(player.position);
+                navMeshAgent.SetDestination(target.position);
             }
+        }
+
+        public void startMoving(Transform transform)
+        {
+            target = transform;
+            isMoving = true;
+            animator.SetBool(isWalkingHash, true);
+        }
+
+        public void stopMoving()
+        {
+            target = null;
+            isMoving = false;
+            navMeshAgent.ResetPath();
+            animator.SetBool(isWalkingHash, false);
         }
     }
 
