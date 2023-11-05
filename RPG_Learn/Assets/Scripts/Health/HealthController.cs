@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RPG.Character.Health
+namespace RPG.Health
 {
-    public class CharacterHealth : MonoBehaviour
+    public class HealthController : MonoBehaviour
     {
         [Header("CharacterData")]
         [SerializeField] private float maxHealth = 100f;
@@ -18,11 +18,6 @@ namespace RPG.Character.Health
 
         private void Start()
         {
-            if(healthSlider == null)
-            {
-                healthSlider = GetComponentInChildren<Slider>();
-            }
-
             currentHealth = maxHealth;
             updateHealthUI();
         }

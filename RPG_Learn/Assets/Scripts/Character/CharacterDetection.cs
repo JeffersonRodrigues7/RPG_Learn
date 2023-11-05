@@ -13,8 +13,7 @@ namespace RPG.Character.Detection
         [SerializeField] private float detectionRadius = 10f;
         [SerializeField] private float attackDistance = 1f;
 
-        [Header("Other")]
-        [SerializeField] private SphereCollider detectionCollider;
+        private SphereCollider detectionCollider;
 
         private CharacterMovement characterMovement;
         private CharacterAttack characterAttack;
@@ -28,6 +27,8 @@ namespace RPG.Character.Detection
         {
             characterMovement = GetComponentInParent<CharacterMovement>();
             characterAttack = GetComponentInParent<CharacterAttack>();
+
+            detectionCollider = GetComponent<SphereCollider>();
 
             if (detectionCollider != null)
             {

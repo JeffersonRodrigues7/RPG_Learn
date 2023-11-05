@@ -851,7 +851,6 @@ GameObject:
   - component: {fileID: 63937254902706661}
   - component: {fileID: 6197808836730842015}
   - component: {fileID: 6522227767536064411}
-  - component: {fileID: 9049912958346357279}
   - component: {fileID: 8894129058450395763}
   - component: {fileID: 637647177613866302}
   - component: {fileID: 2581092224606167744}
@@ -916,21 +915,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: 41a945084a0cb8e46b3e35596b646105, type: 2}
---- !u!114 &9049912958346357279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840192036602899295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b63dd8775f9a1b248bf7fe3440940ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRadius: 10
-  attackDistance: 1
-  detectionCollider: {fileID: 7618887959828277385}
 --- !u!114 &8894129058450395763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3936,6 +3920,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2831141904987750260}
   - component: {fileID: 7618887959828277385}
+  - component: {fileID: 5297766761987115654}
   m_Layer: 0
   m_Name: EnemyDetection
   m_TagString: Untagged
@@ -3971,6 +3956,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5297766761987115654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8891957778221542803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63dd8775f9a1b248bf7fe3440940ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 10
+  attackDistance: 1
+  detectionCollider: {fileID: 0}
 --- !u!1 &8979777331299920369
 GameObject:
   m_ObjectHideFlags: 0

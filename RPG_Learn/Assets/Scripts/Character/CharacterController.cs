@@ -1,6 +1,6 @@
+using RPG.Health;
 using RPG.Character.Attack;
 using RPG.Character.Detection;
-using RPG.Character.Health;
 using RPG.Character.Movement;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,16 +15,16 @@ namespace RPG.Character.Controll
         private CharacterMovement characterMovement;
         private CharacterDetection characterDetection;
         private CharacterAttack characterAttack;
-        private CharacterHealth characterHealth;
+        private HealthController healthController;
 
         private Animator animator;
 
         private void Awake()
         {
+            characterDetection = GetComponentInChildren<CharacterDetection>();
             characterMovement = GetComponent<CharacterMovement>();
-            characterDetection = GetComponent<CharacterDetection>();
             characterAttack = GetComponent<CharacterAttack>();
-            characterHealth = GetComponent<CharacterHealth>();
+            healthController = GetComponent<HealthController>();
             animator = GetComponent<Animator>();
 
             characterDetection.DetectionRadius = characterData._detectionDistance;
@@ -37,7 +37,7 @@ namespace RPG.Character.Controll
 
             characterAttack.Damage = characterData._damage;
 
-            characterHealth.MaxHealth = characterData._maxHealth;
+            healthController.MaxHealth = characterData._maxHealth;
 
             animator.runtimeAnimatorController = characterData._animatorOverrideController;
         }

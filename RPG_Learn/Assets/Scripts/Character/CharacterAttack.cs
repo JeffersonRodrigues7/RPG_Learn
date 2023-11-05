@@ -34,7 +34,11 @@ namespace RPG.Character.Attack
         private void spawnWeapon()
         {
             weapon = Instantiate(weaponPrefab, rightHandTransform);
-            if (weapon != null) weaponController = weapon.GetComponent<WeaponController>();
+            if (weapon != null)
+            {
+                weaponController = weapon.GetComponent<WeaponController>();
+                weaponController.EnemyTag = "Player";
+            }
         }
 
         public void startAttackAnimation()

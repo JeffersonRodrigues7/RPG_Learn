@@ -42,7 +42,12 @@ namespace RPG.Player.Attack
         private void spawnWeapon()
         {
             weapon = Instantiate(weaponPrefab, rightHandTransform);
-            if(weapon != null) weaponController = weapon.GetComponent<WeaponController>();
+            if (weapon != null) 
+            {
+                weaponController = weapon.GetComponent<WeaponController>();
+                weaponController.EnemyTag = "Enemy";
+            }
+            
         }
 
         #endregion
