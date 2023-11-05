@@ -31,6 +31,13 @@ namespace RPG.Character.Movement
 
         private int isWalkingHash; // Hash da String que se refere à animação de Walk.
 
+        public float walkSpeed = 0;
+        public float chaseSpeed = 0;
+
+        public float WalkSpeed { set { walkSpeed = value; } }
+        public float ChaseSpeed { set { chaseSpeed = value; } }
+
+
         private void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -39,6 +46,9 @@ namespace RPG.Character.Movement
             animator.runtimeAnimatorController = animatorOverrideController;
             originalPosition = transform.position;
             currentCharacterState = CharacterState.Idle;
+
+            Debug.Log(walkSpeed);
+            navMeshAgent.speed = walkSpeed;
         }
 
         private void Update()
@@ -83,6 +93,7 @@ namespace RPG.Character.Movement
         {
             // Inicia a perseguição.
             currentCharacterState = CharacterState.Chasing;
+            navMeshAgent.speed = chaseSpeed;
 
             // Se estiver no meio de uma corrotina de retorno à posição original, interrompa-a.
             if (goBackToOriginalPositionVariable != null)
@@ -99,6 +110,7 @@ namespace RPG.Character.Movement
         {
             // Interrompe a perseguição e muda para o estado de movimento para a última posição conhecida do inimigo.
             target = null;
+            navMeshAgent.speed = walkSpeed;
             currentCharacterState = CharacterState.MovingToLastKnownEnemyPosition;
         }
 
