@@ -34,6 +34,7 @@ namespace RPG.Character.Controll
             characterMovement.ChaseSpeed = characterData._chaseSpeed;
             characterMovement.CooldownTimeAfterChase = characterData._cooldownTimeAfterChase;
             characterMovement.ArrivalDistance = characterData._arrivalDistance;
+            characterMovement.PatrolPoints = characterData._patrolPoints;
 
             characterAttack.Damage = characterData._damage;
 
