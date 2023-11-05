@@ -4,9 +4,9 @@ using UnityEngine;
 using RPG.Character.Health;
 
 
-namespace RPG.Player.Weapon
+namespace RPG.Weapon
 {
-    public class PlayerWeapon : MonoBehaviour
+    public class WeaponController : MonoBehaviour
     {
         private bool isAttacking = false; // Flag para determinar se a arma está atacando
 
@@ -16,6 +16,7 @@ namespace RPG.Player.Weapon
         {
             if (isAttacking)
             {
+                Debug.Log(other.name);
                 CharacterHealth characterHealth = other.gameObject?.GetComponent<CharacterHealth>();
                 if(characterHealth != null)
                 {

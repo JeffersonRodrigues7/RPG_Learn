@@ -6,22 +6,33 @@ using UnityEngine;
 
 namespace RPG.Character
 {
-
-
     [CreateAssetMenu(fileName = "CharactersData", menuName = "Characters Data")]
     public class CharactersData : ScriptableObject
     {
-        public string _id;
-        public string _name;
-        public string _description;
-        public string _type;
+        [Header("Basic")]
+        public string _id = "0";
+        public string _name = "Meditrax";
+        [ResizableTextArea] public string _description = "Primeiro Inimigo";
+        public string _type = "Bestial";
+
+        [Header("Detection")]
         public BehaviorType _behavior;
-        public float _detectionDistance;
-        public float _walkSpeed;
-        public float _chaseSpeed;
-        public float _attackDistance;
-        public float _damage;
-        public float _maxHealth;
+        public float _detectionDistance = 10f;
+        public float _attackDistance = 1f;
+        public float _cooldownTimeAfterChase = 2f;
+        public float _arrivalDistance = 0.1f; 
+
+        [Header("Movement")]
+        public float _walkSpeed = 3f;
+        public float _chaseSpeed = 5f;
+
+        [Header("Attack")]
+        public float _damage = 5f;
+
+        [Header("Health")]
+        public float _maxHealth = 100f;
+
+        [Header("Objects")]
         public Transform[] _patrolPoints;
         public AnimatorOverrideController _animatorOverrideController;
         public GameObject _prefab;

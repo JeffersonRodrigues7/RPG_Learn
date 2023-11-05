@@ -9,20 +9,25 @@ namespace RPG.Character.Detection
 {
     public class CharacterDetection : MonoBehaviour
     {
+        [Header("CharacterData")]
         [SerializeField] private float detectionRadius = 10f;
         [SerializeField] private float attackDistance = 1f;
 
+        [Header("Other")]
+        [SerializeField] private SphereCollider detectionCollider;
+
         private CharacterMovement characterMovement;
         private CharacterAttack characterAttack;
-        private SphereCollider detectionCollider;
-
+        
         private Transform target;
+
+        public float DetectionRadius { set { detectionRadius = value; } }
+        public float AttackDistance { set { attackDistance = value; } }
 
         private void Start()
         {
             characterMovement = GetComponentInParent<CharacterMovement>();
             characterAttack = GetComponentInParent<CharacterAttack>();
-            detectionCollider = GetComponent<SphereCollider>(); // Obtenha o Collider do campo de detecção.
 
             if (detectionCollider != null)
             {
@@ -36,8 +41,7 @@ namespace RPG.Character.Detection
             {
                 if (Vector3.Distance(transform.position, target.transform.position) < attackDistance)
                 {
-                    Debug.Log("Chamando Ataqie");
-                    characterAttack.startAttack();
+                    characterAttack.startAttackAnimation();
                 }
             }
         }

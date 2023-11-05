@@ -17,10 +17,12 @@ MonoBehaviour:
   _description: Primeiro Inimigo
   _type: Bestial
   _behavior: 2
-  _detectionDistance: 0
+  _detectionDistance: 10
+  _attackDistance: 1.5
+  _cooldownTimeAfterChase: 2
+  _arrivalDistance: 0.1
   _walkSpeed: 3
   _chaseSpeed: 5
-  _attackDistance: 1.5
   _damage: 5
   _maxHealth: 100
   _patrolPoints:

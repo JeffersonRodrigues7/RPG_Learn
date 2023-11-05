@@ -1,4 +1,4 @@
-using RPG.Player.Weapon;
+using RPG.Weapon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace RPG.Player.Attack
 
         private Animator animator; //Componente animator
         private GameObject weapon;
-        private PlayerWeapon playerWeapon;
+        private WeaponController weaponController;
 
         private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
         private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
@@ -42,7 +42,7 @@ namespace RPG.Player.Attack
         private void spawnWeapon()
         {
             weapon = Instantiate(weaponPrefab, rightHandTransform);
-            if(weapon != null) playerWeapon = weapon.GetComponent<PlayerWeapon>();
+            if(weapon != null) weaponController = weapon.GetComponent<WeaponController>();
         }
 
         #endregion
@@ -51,14 +51,14 @@ namespace RPG.Player.Attack
         //Chamado através da animação de ataque
         public void activeAttack()
         {
-            playerWeapon.IsAttacking = true;
+            weaponController.IsAttacking = true;
         }
 
         //Chamado através da animação de ataque
         public void desactiveAttack()
         {
             isMeleeAttacking = false;
-            playerWeapon.IsAttacking = false;
+            weaponController.IsAttacking = false;
         }
         #endregion
 

@@ -851,10 +851,10 @@ GameObject:
   - component: {fileID: 63937254902706661}
   - component: {fileID: 6197808836730842015}
   - component: {fileID: 6522227767536064411}
+  - component: {fileID: 9049912958346357279}
   - component: {fileID: 8894129058450395763}
   - component: {fileID: 637647177613866302}
   - component: {fileID: 2581092224606167744}
-  - component: {fileID: 9049912958346357279}
   - component: {fileID: 8419030035691033661}
   - component: {fileID: 1907282962250674556}
   - component: {fileID: 8963755993720859070}
@@ -916,6 +916,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: 41a945084a0cb8e46b3e35596b646105, type: 2}
+--- !u!114 &9049912958346357279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840192036602899295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63dd8775f9a1b248bf7fe3440940ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 10
+  attackDistance: 1
+  detectionCollider: {fileID: 7618887959828277385}
 --- !u!114 &8894129058450395763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,7 +943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257d557fcfded5047885c07033a55627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorOverrideController: {fileID: 22100000, guid: 2f4b3100c9207e445b20bd9d22ea8411, type: 2}
+  walkSpeed: 0
+  chaseSpeed: 0
   cooldownTimeAfterChase: 2
   arrivalDistance: 0.1
 --- !u!114 &637647177613866302
@@ -943,6 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ba1234ff668e3408797e5405f49b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 100
+  weaponPrefab: {fileID: 3964347541132674574, guid: 223daaca244fbc044b88967b86d54a77, type: 3}
+  rightHandTransform: {fileID: 2223708592999311814}
 --- !u!114 &2581092224606167744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,20 +977,6 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 246137427}
---- !u!114 &9049912958346357279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840192036602899295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b63dd8775f9a1b248bf7fe3440940ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRadius: 10
-  attackDistance: 1
 --- !u!54 &8419030035691033661
 Rigidbody:
   m_ObjectHideFlags: 0

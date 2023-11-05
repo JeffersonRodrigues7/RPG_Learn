@@ -7,9 +7,14 @@ namespace RPG.Character.Health
 {
     public class CharacterHealth : MonoBehaviour
     {
+        [Header("CharacterData")]
         [SerializeField] private float maxHealth = 100f;
+
+        [Header("Other")]
         [SerializeField] private float currentHealth;
         [SerializeField] private Slider healthSlider;
+
+        public float MaxHealth { set { maxHealth = value; } }
 
         private void Start()
         {

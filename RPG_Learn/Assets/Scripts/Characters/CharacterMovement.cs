@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,9 @@ namespace RPG.Character.Movement
 {
     public class CharacterMovement : MonoBehaviour
     {
-        [SerializeField] AnimatorOverrideController animatorOverrideController;
+        [Header("CharacterData")]
+        [SerializeField] private float walkSpeed = 0;
+        [SerializeField] private float chaseSpeed = 0;
         [SerializeField] private float cooldownTimeAfterChase = 2f;
         [SerializeField] private float arrivalDistance = 0.1f; // Distância para considerar que o personagem chegou à posição final.
 
@@ -31,11 +34,10 @@ namespace RPG.Character.Movement
 
         private int isWalkingHash; // Hash da String que se refere à animação de Walk.
 
-        public float walkSpeed = 0;
-        public float chaseSpeed = 0;
-
         public float WalkSpeed { set { walkSpeed = value; } }
         public float ChaseSpeed { set { chaseSpeed = value; } }
+        public float CooldownTimeAfterChase { set { cooldownTimeAfterChase = value; } }
+        public float ArrivalDistance { set { arrivalDistance = value; } }
 
 
         private void Start()
@@ -43,11 +45,9 @@ namespace RPG.Character.Movement
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
             isWalkingHash = Animator.StringToHash("isWalking");
-            animator.runtimeAnimatorController = animatorOverrideController;
             originalPosition = transform.position;
             currentCharacterState = CharacterState.Idle;
 
-            Debug.Log(walkSpeed);
             navMeshAgent.speed = walkSpeed;
         }
 

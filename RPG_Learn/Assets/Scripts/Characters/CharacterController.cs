@@ -10,12 +10,14 @@ namespace RPG.Character.Controll
 {
     public class CharacterController : MonoBehaviour
     {
-        public CharactersData characterData;
+        [SerializeField] private CharactersData characterData;
 
         private CharacterMovement characterMovement;
         private CharacterDetection characterDetection;
         private CharacterAttack characterAttack;
         private CharacterHealth characterHealth;
+
+        private Animator animator;
 
         private void Awake()
         {
@@ -23,9 +25,21 @@ namespace RPG.Character.Controll
             characterDetection = GetComponent<CharacterDetection>();
             characterAttack = GetComponent<CharacterAttack>();
             characterHealth = GetComponent<CharacterHealth>();
+            animator = GetComponent<Animator>();
+
+            characterDetection.DetectionRadius = characterData._detectionDistance;
+            characterDetection.AttackDistance = characterData._attackDistance;
 
             characterMovement.WalkSpeed = characterData._walkSpeed;
             characterMovement.ChaseSpeed = characterData._chaseSpeed;
+            characterMovement.CooldownTimeAfterChase = characterData._cooldownTimeAfterChase;
+            characterMovement.ArrivalDistance = characterData._arrivalDistance;
+
+            characterAttack.Damage = characterData._damage;
+
+            characterHealth.MaxHealth = characterData._maxHealth;
+
+            animator.runtimeAnimatorController = characterData._animatorOverrideController;
         }
     }
 

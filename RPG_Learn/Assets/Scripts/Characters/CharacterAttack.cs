@@ -1,3 +1,4 @@
+using RPG.Weapon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,18 +8,36 @@ namespace RPG.Character.Attack
 {
     public class CharacterAttack : MonoBehaviour
     {
-        private Animator animator; // Componente Animator.
+        [Header("CharacterData")]
+        [SerializeField] private float damage = 100f;
+
+        [Header("Other")]
+        [SerializeField] private GameObject weaponPrefab;
+        [SerializeField] private Transform rightHandTransform;
+
+        private Animator animator; //Componente animator
+        private GameObject weapon;
+        private WeaponController weaponController;
 
         private bool isMeleeAttacking = false; // Flag para determinar se o character está usando o melee attack
         private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
+
+        public float Damage { set { damage = value; } }
 
         private void Start()
         {
             animator = GetComponent<Animator>();
             isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
+            spawnWeapon();
         }
 
-        public void startAttack()
+        private void spawnWeapon()
+        {
+            weapon = Instantiate(weaponPrefab, rightHandTransform);
+            if (weapon != null) weaponController = weapon.GetComponent<WeaponController>();
+        }
+
+        public void startAttackAnimation()
         {
            
             if(isMeleeAttacking == false)
@@ -28,10 +47,17 @@ namespace RPG.Character.Attack
             }
         }
 
-        public void stopBestialAttack()
+        //Chamado através da animação de ataque
+        public void activeAttack()
         {
-            Debug.Log("StopBestialAttack");
+            weaponController.IsAttacking = true;
+        }
+
+        //Chamado através da animação de ataque
+        public void desactiveAttack()
+        {
             isMeleeAttacking = false;
+            weaponController.IsAttacking = false;
         }
     }
 
