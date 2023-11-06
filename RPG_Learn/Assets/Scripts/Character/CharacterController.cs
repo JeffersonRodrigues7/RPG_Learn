@@ -16,25 +16,29 @@ namespace RPG.Character.Controll
         private CharacterDetection characterDetection;
         private CharacterAttack characterAttack;
         private HealthController healthController;
-
         private Animator animator;
 
         private void Awake()
         {
+            // Obtém referências para os componentes relacionados ao personagem.
             characterDetection = GetComponentInChildren<CharacterDetection>();
             characterMovement = GetComponent<CharacterMovement>();
             characterAttack = GetComponent<CharacterAttack>();
             healthController = GetComponent<HealthController>();
             animator = GetComponent<Animator>();
 
+            // Define os parâmetros dos componentes com base nos dados em characterData.
             characterDetection.DetectionRadius = characterData._detectionDistance;
             characterDetection.AttackDistance = characterData._attackDistance;
+            characterDetection.ChaseEnemyBehavior = characterData._chaseEnemyBehavior;
 
             characterMovement.WalkSpeed = characterData._walkSpeed;
             characterMovement.ChaseSpeed = characterData._chaseSpeed;
             characterMovement.CooldownTimeAfterChase = characterData._cooldownTimeAfterChase;
             characterMovement.ArrivalDistance = characterData._arrivalDistance;
-            if (characterData._patrolPoints != null && characterData._patrolPoints.Length>0)
+
+            // Define os pontos de patrulha do personagem, se estiverem disponíveis.
+            if (characterData._patrolPoints != null && characterData._patrolPoints.Length > 0)
             {
                 characterMovement.PatrolPoints = characterData._patrolPoints;
             }
@@ -43,12 +47,11 @@ namespace RPG.Character.Controll
 
             healthController.MaxHealth = characterData._maxHealth;
 
+            // Define o controlador de animação do personagem, se estiver disponível.
             if (characterData._animatorOverrideController != null)
             {
                 animator.runtimeAnimatorController = characterData._animatorOverrideController;
-            } 
+            }
         }
     }
-
 }
-

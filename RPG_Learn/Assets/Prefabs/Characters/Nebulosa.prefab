@@ -372,6 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRadius: 10
   attackDistance: 1
+  chaseEnemyBehavior: 1
 --- !u!1 &1032873136491109686
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,7 +3481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  healthSlider: {fileID: 0}
+  healthSlider: {fileID: 1973322502939063127}
 --- !u!54 &5228882029018100496
 Rigidbody:
   m_ObjectHideFlags: 0

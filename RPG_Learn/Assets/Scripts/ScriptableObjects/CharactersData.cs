@@ -17,14 +17,16 @@ namespace RPG.Character
 
         [Header("Detection")]
         public BehaviorType _behavior;
+        public bool _chaseEnemyBehavior = true;
         public float _detectionDistance = 10f;
         public float _attackDistance = 1f;
-        public float _cooldownTimeAfterChase = 2f;
-        public float _arrivalDistance = 0.1f; 
 
         [Header("Movement")]
         public float _walkSpeed = 3f;
         public float _chaseSpeed = 5f;
+        public float _cooldownTimeAfterChase = 2f;
+        public float _arrivalDistance = 0.1f;
+        public Transform[] _patrolPoints;
 
         [Header("Attack")]
         public float _damage = 5f;
@@ -33,7 +35,6 @@ namespace RPG.Character
         public float _maxHealth = 100f;
 
         [Header("Objects")]
-        public Transform[] _patrolPoints;
         public AnimatorOverrideController _animatorOverrideController;
         public GameObject _prefab;
     }
