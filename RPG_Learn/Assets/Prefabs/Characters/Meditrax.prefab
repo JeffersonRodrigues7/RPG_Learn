@@ -27,18 +27,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103312304}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.001, y: 0.001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 247359020}
-  m_Father: {fileID: 3881561820162317189}
-  m_RootOrder: 0
+  m_Father: {fileID: 63937254902706661}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.413}
+  m_AnchoredPosition: {x: 0, y: 2.25}
   m_SizeDelta: {x: 1920, y: 540}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &103312308
@@ -879,6 +879,7 @@ Transform:
   - {fileID: 5526889074216784241}
   - {fileID: 3881561820162317189}
   - {fileID: 2831141904987750260}
+  - {fileID: 103312305}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -931,6 +932,7 @@ MonoBehaviour:
   chaseSpeed: 0
   cooldownTimeAfterChase: 2
   arrivalDistance: 0.1
+  patrolPoints: []
 --- !u!114 &637647177613866302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2700,8 +2702,7 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 103312305}
+  m_Children: []
   m_Father: {fileID: 63937254902706661}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3970,7 +3971,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRadius: 10
   attackDistance: 1
-  detectionCollider: {fileID: 0}
 --- !u!1 &8979777331299920369
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,13 +34,19 @@ namespace RPG.Character.Controll
             characterMovement.ChaseSpeed = characterData._chaseSpeed;
             characterMovement.CooldownTimeAfterChase = characterData._cooldownTimeAfterChase;
             characterMovement.ArrivalDistance = characterData._arrivalDistance;
-            characterMovement.PatrolPoints = characterData._patrolPoints;
+            if (characterData._patrolPoints != null && characterData._patrolPoints.Length>0)
+            {
+                characterMovement.PatrolPoints = characterData._patrolPoints;
+            }
 
             characterAttack.Damage = characterData._damage;
 
             healthController.MaxHealth = characterData._maxHealth;
 
-            animator.runtimeAnimatorController = characterData._animatorOverrideController;
+            if (characterData._animatorOverrideController != null)
+            {
+                animator.runtimeAnimatorController = characterData._animatorOverrideController;
+            } 
         }
     }
 

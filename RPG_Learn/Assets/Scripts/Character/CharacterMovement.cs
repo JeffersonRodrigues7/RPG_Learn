@@ -111,15 +111,18 @@ namespace RPG.Character.Movement
 
         private void doPatrolling()
         {
-            if (navMeshAgent.remainingDistance <= arrivalDistance)
+            if (patrolPointsLength > 0)
             {
-                currentPatrolPoint++;
-                if(currentPatrolPoint >= patrolPointsLength)
+                if (navMeshAgent.remainingDistance <= arrivalDistance)
                 {
-                    currentPatrolPoint = 0;
-                }
+                    currentPatrolPoint++;
+                    if (currentPatrolPoint >= patrolPointsLength)
+                    {
+                        currentPatrolPoint = 0;
+                    }
 
-                navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].position);
+                    navMeshAgent.SetDestination(patrolPoints[currentPatrolPoint].position);
+                }
             }
         }
 
