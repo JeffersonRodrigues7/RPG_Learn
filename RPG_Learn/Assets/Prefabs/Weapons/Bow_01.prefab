@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6283076498579046401}
   - component: {fileID: 6962040952213458852}
   - component: {fileID: 5150662314377558894}
-  - component: {fileID: 3038455609427426119}
+  - component: {fileID: -3316244241785269955}
+  - component: {fileID: 7975101165250011421}
   m_Layer: 0
   m_Name: Bow_01
   m_TagString: Untagged
@@ -84,17 +85,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3038455609427426119
-MeshCollider:
+--- !u!114 &-3316244241785269955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6663683016408734395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f926902df6c504881293909f0b020d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  enemyTag: Enemy
+--- !u!65 &7975101165250011421
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6663683016408734395}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7983878246839791379, guid: 3855b63c5a0b1a041a1acca8eb229d9b, type: 3}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.31090236, y: 1.0085006, z: 0.0367534}
+  m_Center: {x: 0.13567787, y: 0, z: -0.0000071385875}

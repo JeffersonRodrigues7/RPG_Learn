@@ -14,6 +14,7 @@ namespace RPG.Player.Attack
         #region VARIABLES DECLARATION
         [SerializeField] private GameObject swordPrefab;
         [SerializeField] private GameObject bowPrefab;
+        [SerializeField] private Transform leftHandTransform;
         [SerializeField] private Transform rightHandTransform;
         [SerializeField] private ProjectileController projectileController = null;
         [SerializeField] private List<string> projectileTagsToExclude = new List<string> { "Weapon", "Detection" };
@@ -50,10 +51,10 @@ namespace RPG.Player.Attack
             meleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
             rangedAttackingHash = Animator.StringToHash("TriggerRangedAttack");
 
-            spawnWeapon(swordPrefab);
+            spawnWeapon(swordPrefab, rightHandTransform);
         }
 
-        private void spawnWeapon(GameObject weaponPrefab)
+        private void spawnWeapon(GameObject weaponPrefab, Transform hand)
         {
             isUsingSword = !isUsingSword;
 
@@ -65,7 +66,7 @@ namespace RPG.Player.Attack
             if(weaponPrefab != null)
             {
                 
-                weapon = Instantiate(weaponPrefab, rightHandTransform);
+                weapon = Instantiate(weaponPrefab, hand);
                 weaponController = weapon.GetComponent<WeaponController>();
                 weaponController.EnemyTag = "Enemy";
             }
@@ -88,6 +89,12 @@ namespace RPG.Player.Attack
         //Chamado através da animação de ataque
         public void activeAttack()
         {
+
+            weaponController.IsAttacking = true;
+        }
+
+        public void shootArrow()
+        {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
             System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
@@ -100,7 +107,6 @@ namespace RPG.Player.Attack
                     break;
                 }
             }
-            weaponController.IsAttacking = true;
         }
 
         //Chamado através da animação de ataque
@@ -141,12 +147,12 @@ namespace RPG.Player.Attack
         {
             if (isUsingSword)
             {
-                spawnWeapon(bowPrefab);
+                spawnWeapon(bowPrefab, leftHandTransform);
             }
 
             else
             {
-                spawnWeapon(swordPrefab);
+                spawnWeapon(swordPrefab, rightHandTransform);
             }
         }
 
