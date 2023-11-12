@@ -46,7 +46,12 @@ namespace RPG.Character.Detection
                 // Verifica se a distância entre o personagem e o alvo está dentro da distância de ataque.
                 if (Vector3.Distance(transform.position, target.transform.position) < attackDistance)
                 {
-                    characterAttack.startAttackAnimation(); // Inicia a animação de ataque no componente de ataque.
+                    characterAttack.startAttackAnimation(target); // Inicia a animação de ataque no componente de ataque.
+                }
+
+                if (!chaseEnemyBehavior) //Se for um inimigo que fica parado, ele vai ficar sempre olhando pro alvo
+                {
+                    characterMovement.lookAt(target.position);
                 }
             }
         }

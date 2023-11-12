@@ -173,5 +173,10 @@ namespace RPG.Character.Movement
             navMeshAgent.SetDestination(originalPosition);
             setWalkingAnimation(true);
         }
+
+        public void lookAt(Vector3 position)
+        {
+            transform.LookAt(position);
+        }
     }
 }

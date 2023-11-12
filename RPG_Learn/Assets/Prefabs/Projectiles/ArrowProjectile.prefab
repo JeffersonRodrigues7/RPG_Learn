@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  enemyTag: Enemy
+  enemyTag: 
   damage: 15
 --- !u!65 &7718088143812708984
 BoxCollider:

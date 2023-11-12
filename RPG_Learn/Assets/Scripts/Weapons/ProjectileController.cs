@@ -8,7 +8,7 @@ namespace RPG.Projectile
     public class ProjectileController : MonoBehaviour
     {
         [SerializeField] private float speed = 1;
-        [SerializeField] private string enemyTag = "Enemy";
+        [SerializeField] private string enemyTag = "";
         [SerializeField] private float damage = 15f;
 
         private Vector3 target = Vector3.zero;
@@ -20,15 +20,16 @@ namespace RPG.Projectile
         void Update()
         {
             if(target != null)
-            {
-                transform.LookAt(target);
+            { 
                 transform.Translate(Vector3.forward * speed * Time.deltaTime);
             }
         }
 
-        public void SetTarget(Vector3 _target)
+        public void SetTarget(Vector3 _target, string _enemyTag)
         {
             target = _target;
+            enemyTag = _enemyTag;
+            transform.LookAt(target);
         }
 
         private void OnTriggerEnter(Collider other)

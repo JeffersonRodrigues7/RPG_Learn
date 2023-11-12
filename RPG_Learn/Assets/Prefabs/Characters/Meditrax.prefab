@@ -947,8 +947,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
-  weaponPrefab: {fileID: 3964347541132674574, guid: 223daaca244fbc044b88967b86d54a77, type: 3}
+  swordPrefab: {fileID: 3964347541132674574, guid: 223daaca244fbc044b88967b86d54a77, type: 3}
+  bowPrefab: {fileID: 6663683016408734395, guid: 09aa14290a4eefd4bbbf6a5a22b0449c, type: 3}
+  leftHandTransform: {fileID: 6725557814959031245}
   rightHandTransform: {fileID: 2223708592999311814}
+  projectileController: {fileID: 602538487852084214, guid: ca711863b166dcb4da8f12ea09ed336b, type: 3}
+  isUsingSword: 1
+  ArrowParents: {fileID: 0}
 --- !u!114 &2581092224606167744
 MonoBehaviour:
   m_ObjectHideFlags: 0

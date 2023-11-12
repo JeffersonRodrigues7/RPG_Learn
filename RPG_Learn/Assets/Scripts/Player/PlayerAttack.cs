@@ -95,7 +95,7 @@ namespace RPG.Player.Attack
                 if (!projectileTagsToExclude.Contains(hit.collider.tag))
                 {
                     ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
-                    projectileInstance.SetTarget(hit.point);
+                    projectileInstance.SetTarget(hit.point, "Enemy");
                     Destroy(projectileInstance.gameObject, 10f);
                     break;
                 }
