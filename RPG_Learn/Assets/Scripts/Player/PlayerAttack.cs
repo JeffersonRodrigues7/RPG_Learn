@@ -14,7 +14,8 @@ namespace RPG.Player.Attack
         #region VARIABLES DECLARATION
         [SerializeField] private GameObject weaponPrefab;
         [SerializeField] private Transform rightHandTransform;
-        [SerializeField] Projectile.ProjectileController projectileController = null;
+        [SerializeField] private ProjectileController projectileController = null;
+        [SerializeField] private List<string> projectileTagsToExclude = new List<string> { "Weapon", "Detection" };
 
         private Animator animator; //Componente animator
         private GameObject weapon;
@@ -38,6 +39,7 @@ namespace RPG.Player.Attack
         private void Start()
         {
             // Inicializa hashes das strings usadas para controlar animações
+            projectileTagsToExclude.Add(gameObject.tag);
             isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
             spawnWeapon();
         }
@@ -62,9 +64,9 @@ namespace RPG.Player.Attack
             return projectileController != null;
         }
 
-        private void LaunchProjectile(Transform rightHand, HealthController target)
+        private void LaunchProjectile(Transform rightHand, Vector3 target)
         {
-            ProjectileController projectileInstance = Instantiate(projectileController, rightHand.position, Quaternion.identity);
+            ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity);
             projectileInstance.SetTarget(target);
         }
 
@@ -74,8 +76,25 @@ namespace RPG.Player.Attack
         //Chamado através da animação de ataque
         public void activeAttack()
         {
-            HealthController target = GameObject.Find("Meditrax").GetComponent<HealthController>();
-            LaunchProjectile(rightHandTransform, target);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(ray);
+            System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+
+            //foreach (RaycastHit hit in hits)
+            //{
+            //    Debug.Log("Ponto Inicial: " + hit.transform.tag);
+            //}
+
+            foreach (RaycastHit hit in hits)
+            {
+
+                if (!projectileTagsToExclude.Contains(hit.collider.tag))
+                {
+                    Debug.Log("Ponto Inicial: " + hit.transform.tag);
+                    LaunchProjectile(rightHandTransform, hit.point);
+                    break;
+                }
+            }
             weaponController.IsAttacking = true;
         }
 

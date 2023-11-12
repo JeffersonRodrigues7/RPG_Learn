@@ -9,7 +9,7 @@ namespace RPG.Projectile
     {
         [SerializeField] private float speed = 1;
 
-        private HealthController target = null;
+        private Vector3 hit = Vector3.zero;
 
         void Start()
         {
@@ -19,30 +19,22 @@ namespace RPG.Projectile
         // Update is called once per frame
         void Update()
         {
-            if( target != null)
-            {
-                transform.LookAt(GetAimLocation());
-                transform.Translate(Vector3.forward * speed * Time.deltaTime);
-            }
+            //Debug.Log(GetAimLocation());
+            transform.LookAt(GetAimLocation());
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            
         }
 
-        public void SetTarget(HealthController target)
+        public void SetTarget(Vector3 target)
         {
-            this.target = target;
+            this.hit = target;
         }
 
         private Vector3 GetAimLocation()
         {
-            CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
-            if(targetCapsule != null)
-            {
-                return target.transform.position + Vector3.up * targetCapsule.height / 2;
-            }
-            else
-            {
-                return target.transform.position;
-            }
-            
+            return hit;
+
+
         }
     }
 
