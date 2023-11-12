@@ -42,9 +42,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MeleeAttack",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "018280f1-6f3e-430c-a4c4-3dbc663f5494",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeWeapon",
+                    "type": "Button",
+                    "id": "79ba6525-1305-4571-bc81-e3830a0862e9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -147,7 +156,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MeleeAttack",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6921b948-80de-4d63-b540-76a855c3a36b",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

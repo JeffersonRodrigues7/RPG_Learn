@@ -47,8 +47,10 @@ namespace RPG.Player.InputController
             playerInput.CharacterControls.Run.canceled += playerMovement.StopRun; // Callback para parar a corrida
             playerInput.CharacterControls.Jump.started += playerMovement.Jump; // Callback para iniciar a Pulo
             playerInput.CharacterControls.Jump.canceled += playerMovement.StopJump; // Callback para indicar que soltamos botão de pulo
-            playerInput.CharacterControls.MeleeAttack.started += playerAttack.MeleeAttack; // Callback para iniciar o Melee Attack
-            playerInput.CharacterControls.MeleeAttack.canceled += playerAttack.StopMeleeAttack; // Callback para indicar que soltamos botão de melee attack
+            playerInput.CharacterControls.Attack.started += playerAttack.Attack; // Callback para iniciar o Melee Attack
+            playerInput.CharacterControls.Attack.canceled += playerAttack.StopAttack; // Callback para indicar que soltamos botão de melee attack
+            playerInput.CharacterControls.ChangeWeapon.started += playerAttack.ChangeWeapon; // Callback para iniciar a troca de arma
+            playerInput.CharacterControls.ChangeWeapon.canceled += playerAttack.StopChangeWeapon; // Callback para indicar que soltamos botão de troca de arma
 
         }
 
@@ -64,8 +66,11 @@ namespace RPG.Player.InputController
             playerInput.CharacterControls.Run.canceled -= playerMovement.StopRun;
             playerInput.CharacterControls.Jump.started -= playerMovement.Jump;
             playerInput.CharacterControls.Jump.canceled -= playerMovement.StopJump;
-            playerInput.CharacterControls.MeleeAttack.started -= playerAttack.MeleeAttack;
-            playerInput.CharacterControls.MeleeAttack.canceled -= playerAttack.StopMeleeAttack;
+            playerInput.CharacterControls.Attack.started -= playerAttack.Attack;
+            playerInput.CharacterControls.Attack.canceled -= playerAttack.StopAttack;
+            playerInput.CharacterControls.ChangeWeapon.started -= playerAttack.ChangeWeapon; 
+            playerInput.CharacterControls.ChangeWeapon.canceled -= playerAttack.StopChangeWeapon; 
+
         }
     }
 

@@ -12,7 +12,8 @@ namespace RPG.Player.Attack
     public class PlayerAttack : MonoBehaviour
     {
         #region VARIABLES DECLARATION
-        [SerializeField] private GameObject weaponPrefab;
+        [SerializeField] private GameObject swordPrefab;
+        [SerializeField] private GameObject bowPrefab;
         [SerializeField] private Transform rightHandTransform;
         [SerializeField] private ProjectileController projectileController = null;
         [SerializeField] private List<string> projectileTagsToExclude = new List<string> { "Weapon", "Detection" };
@@ -21,10 +22,16 @@ namespace RPG.Player.Attack
         private GameObject weapon;
         private WeaponController weaponController;
 
+        private bool isUsingSword = false;//´true-> weapon atual é a espada; false -> weapon atua´l é o arco
+
         private bool isMeleeAttacking = false; // Flag para determinar se o jogador está usando o melee attack
-        private int isMeleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
+        private int meleeAttackingHash; //Hash da String que se refere a animação de Melee Attacking
+
+        private bool isRangedAttacking = false; // Flag para determinar se o jogador está usando o melee attack
+        private int rangedAttackingHash; //Hash da String que se refere a animação de Melee Attacking
 
         public bool IsMeleeAttacking { get { return isMeleeAttacking; } }
+        public bool IsRangedAttacking { get { return isRangedAttacking; } }
 
         #endregion
 
@@ -40,29 +47,34 @@ namespace RPG.Player.Attack
         {
             // Inicializa hashes das strings usadas para controlar animações
             projectileTagsToExclude.Add(gameObject.tag);
-            isMeleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
-            spawnWeapon();
+            meleeAttackingHash = Animator.StringToHash("TriggerMeleeAttack");
+            rangedAttackingHash = Animator.StringToHash("TriggerRangedAttack");
+
+            spawnWeapon(swordPrefab);
         }
 
-        private void spawnWeapon()
+        private void spawnWeapon(GameObject weaponPrefab)
         {
-            weapon = Instantiate(weaponPrefab, rightHandTransform);
-            if (weapon != null) 
+            isUsingSword = !isUsingSword;
+
+            if (weapon != null)
             {
+                Destroy(weapon);
+            }
+
+            if(weaponPrefab != null)
+            {
+                
+                weapon = Instantiate(weaponPrefab, rightHandTransform);
                 weaponController = weapon.GetComponent<WeaponController>();
                 weaponController.EnemyTag = "Enemy";
             }
-            
+
         }
 
         #endregion
 
         #region  ATTACK
-
-        private bool HasProjectile()
-        {
-            return projectileController != null;
-        }
 
         private void LaunchProjectile(Transform rightHand, Vector3 target)
         {
@@ -80,17 +92,10 @@ namespace RPG.Player.Attack
             RaycastHit[] hits = Physics.RaycastAll(ray);
             System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
 
-            //foreach (RaycastHit hit in hits)
-            //{
-            //    Debug.Log("Ponto Inicial: " + hit.transform.tag);
-            //}
-
             foreach (RaycastHit hit in hits)
             {
-
                 if (!projectileTagsToExclude.Contains(hit.collider.tag))
                 {
-                    Debug.Log("Ponto Inicial: " + hit.transform.tag);
                     LaunchProjectile(rightHandTransform, hit.point);
                     break;
                 }
@@ -102,6 +107,7 @@ namespace RPG.Player.Attack
         public void desactiveAttack()
         {
             isMeleeAttacking = false;
+            isRangedAttacking = false;
             weaponController.IsAttacking = false;
         }
         #endregion
@@ -109,14 +115,43 @@ namespace RPG.Player.Attack
         #region  CALLBACKS DE INPUT 
 
         //Inicia animação de melee attack
-        public void MeleeAttack(InputAction.CallbackContext context)
+        public void Attack(InputAction.CallbackContext context)
         {
-            animator.SetTrigger(isMeleeAttackingHash);
-            isMeleeAttacking = true;
+            if (isUsingSword)
+            {
+                animator.SetTrigger(meleeAttackingHash);
+                isMeleeAttacking = true;
+            }
+            else
+            {
+                animator.SetTrigger(rangedAttackingHash);
+                isRangedAttacking = true;
+            }
+
         }
 
         // Chamado quando soltamos o botão de melee attack
-        public void StopMeleeAttack(InputAction.CallbackContext context)
+        public void StopAttack(InputAction.CallbackContext context)
+        {
+
+        }
+
+        //Inicia animação de melee attack
+        public void ChangeWeapon(InputAction.CallbackContext context)
+        {
+            if (isUsingSword)
+            {
+                spawnWeapon(bowPrefab);
+            }
+
+            else
+            {
+                spawnWeapon(swordPrefab);
+            }
+        }
+
+        // Chamado quando soltamos o botão de melee attack
+        public void StopChangeWeapon(InputAction.CallbackContext context)
         {
 
         }

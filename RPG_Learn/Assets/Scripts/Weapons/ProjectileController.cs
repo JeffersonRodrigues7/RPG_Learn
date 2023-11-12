@@ -8,8 +8,11 @@ namespace RPG.Projectile
     public class ProjectileController : MonoBehaviour
     {
         [SerializeField] private float speed = 1;
+        [SerializeField] private string enemyTag = "Enemy";
 
         private Vector3 hit = Vector3.zero;
+
+        public string EnemyTag { set { enemyTag = value; } }
 
         void Start()
         {
