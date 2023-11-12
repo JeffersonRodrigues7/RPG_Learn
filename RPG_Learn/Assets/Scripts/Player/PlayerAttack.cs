@@ -1,3 +1,5 @@
+using RPG.Health;
+using RPG.Projectile;
 using RPG.Weapon;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +14,7 @@ namespace RPG.Player.Attack
         #region VARIABLES DECLARATION
         [SerializeField] private GameObject weaponPrefab;
         [SerializeField] private Transform rightHandTransform;
+        [SerializeField] Projectile.ProjectileController projectileController = null;
 
         private Animator animator; //Componente animator
         private GameObject weapon;
@@ -52,10 +55,27 @@ namespace RPG.Player.Attack
 
         #endregion
 
+        #region  ATTACK
+
+        private bool HasProjectile()
+        {
+            return projectileController != null;
+        }
+
+        private void LaunchProjectile(Transform rightHand, HealthController target)
+        {
+            ProjectileController projectileInstance = Instantiate(projectileController, rightHand.position, Quaternion.identity);
+            projectileInstance.SetTarget(target);
+        }
+
+        #endregion
+
         #region  FUNÇÕES DE ANIMAÇÃO
         //Chamado através da animação de ataque
         public void activeAttack()
         {
+            HealthController target = GameObject.Find("Meditrax").GetComponent<HealthController>();
+            LaunchProjectile(rightHandTransform, target);
             weaponController.IsAttacking = true;
         }
 
