@@ -9,36 +9,43 @@ namespace RPG.Projectile
     {
         [SerializeField] private float speed = 1;
         [SerializeField] private string enemyTag = "Enemy";
+        [SerializeField] private float damage = 15f;
 
-        private Vector3 hit = Vector3.zero;
+        private Vector3 target = Vector3.zero;
+
+        HealthController healthController;
 
         public string EnemyTag { set { enemyTag = value; } }
 
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
         void Update()
         {
-            //Debug.Log(GetAimLocation());
-            transform.LookAt(GetAimLocation());
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            if(target != null)
+            {
+                transform.LookAt(target);
+                transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            }
+        }
+
+        public void SetTarget(Vector3 _target)
+        {
+            target = _target;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag.Equals(enemyTag))
+            {
+                healthController = other.gameObject?.GetComponent<HealthController>();
+
+                if (healthController != null)
+                {
+                    healthController.takeDamage(damage);
+                }
+                Destroy(gameObject);
+            }
             
         }
 
-        public void SetTarget(Vector3 target)
-        {
-            this.hit = target;
-        }
-
-        private Vector3 GetAimLocation()
-        {
-            return hit;
-
-
-        }
     }
 
 }

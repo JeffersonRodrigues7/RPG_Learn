@@ -11,6 +11,8 @@ namespace RPG.Weapon
         [SerializeField] private float damage = 10f;
         [SerializeField] private string enemyTag = "Enemy";
 
+        HealthController healthController;
+
         private bool isAttacking = false; // Flag para determinar se a arma está atacando
 
         public bool IsAttacking { set { isAttacking = value; } }
@@ -20,9 +22,9 @@ namespace RPG.Weapon
         {
             if (isAttacking)
             {
-                if(other.tag == enemyTag)
+                if(other.tag.Equals(enemyTag))
                 {
-                    HealthController healthController = other.gameObject?.GetComponent<HealthController>();
+                    healthController = other.gameObject?.GetComponent<HealthController>();
 
                     if (healthController != null)
                     {

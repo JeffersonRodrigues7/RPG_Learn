@@ -18,6 +18,7 @@ namespace RPG.Player.Attack
         [SerializeField] private Transform rightHandTransform;
         [SerializeField] private ProjectileController projectileController = null;
         [SerializeField] private List<string> projectileTagsToExclude = new List<string> { "Weapon", "Detection" };
+        [SerializeField] private Transform ArrowParents;
 
         private Animator animator; //Componente animator
         private GameObject weapon;
@@ -75,16 +76,6 @@ namespace RPG.Player.Attack
 
         #endregion
 
-        #region  ATTACK
-
-        private void LaunchProjectile(Transform rightHand, Vector3 target)
-        {
-            ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity);
-            projectileInstance.SetTarget(target);
-        }
-
-        #endregion
-
         #region  FUNÇÕES DE ANIMAÇÃO
         //Chamado através da animação de ataque
         public void activeAttack()
@@ -103,7 +94,9 @@ namespace RPG.Player.Attack
             {
                 if (!projectileTagsToExclude.Contains(hit.collider.tag))
                 {
-                    LaunchProjectile(rightHandTransform, hit.point);
+                    ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
+                    projectileInstance.SetTarget(hit.point);
+                    Destroy(projectileInstance.gameObject, 10f);
                     break;
                 }
             }
