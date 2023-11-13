@@ -55,28 +55,29 @@ namespace RPG.Character.Attack
             weaponController = weapon.GetComponent<WeaponController>(); // Obtém o controlador da arma
             weaponController.EnemyTag = "Player"; // Define a tag do inimigo
         }
-
         public void startAttackAnimation(Transform _target)
         {
-            if (isUsingSword && !isMeleeAttacking)
+            // Inicia a animação de ataque, com base no tipo de arma e estado de ataque do jogador
+            if (isUsingSword && !isMeleeAttacking) // Se estiver usando espada e não estiver atacando
             {
                 animator.SetTrigger(meleeAttackingHash); // Inicia a animação de ataque corpo a corpo
-                isMeleeAttacking = true;
+                isMeleeAttacking = true; // Define o estado de ataque corpo a corpo como verdadeiro
             }
-            else if(!isUsingSword && !isRangedAttacking)
+            else if (!isUsingSword && !isRangedAttacking) // Se não estiver usando espada e não estiver atacando à distância
             {
-                animator.SetTrigger(rangedAttackingHash);
-                isRangedAttacking = true;
-                target = _target;
+                animator.SetTrigger(rangedAttackingHash); // Inicia a animação de ataque à distância
+                isRangedAttacking = true; // Define o estado de ataque à distância como verdadeiro
+                target = _target; // Define o alvo do ataque à distância
             }
         }
 
         public void shootArrow()
         {
-            Debug.Log(target.name);
+            // Instancia um projétil para ataque à distância, direcionado ao alvo determinado
+            Debug.Log(target.name); // Nome do alvo (apenas para debug)
             ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
-            projectileInstance.SetTarget(target.position, "Player");
-            Destroy(projectileInstance.gameObject, 10f);
+            projectileInstance.SetTarget(target.position, "Player"); // Define o alvo do projétil como o jogador
+            Destroy(projectileInstance.gameObject, 10f); // Destruir o projétil após um tempo determinado
         }
 
         // Chamado pela animação de ataque

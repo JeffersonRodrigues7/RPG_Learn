@@ -60,43 +60,48 @@ namespace RPG.Player.Attack
 
         private void spawnWeapon(GameObject weaponPrefab, Transform hand)
         {
+            // Alternar entre o uso de espada e arco
             isUsingSword = !isUsingSword;
 
+            // Destruir arma atual se existir
             if (weapon != null)
             {
                 Destroy(weapon);
             }
 
-            if(weaponPrefab != null)
+            // Instanciar e configurar a nova arma
+            if (weaponPrefab != null)
             {
-                
                 weapon = Instantiate(weaponPrefab, hand);
                 weaponController = weapon.GetComponent<WeaponController>();
                 weaponController.EnemyTag = "Enemy";
             }
-
         }
-
         #endregion
 
-        #region  FUNÇÕES DE ANIMAÇÃO
-        //Chamado através da animação de ataque
+        #region FUNÇÕES DE ANIMAÇÃO
+
+        // Ativar ataque - Chamado pela animação de ataque
         public void activeAttack()
         {
-
+            // Configurar a variável de controle de ataque da arma
             weaponController.IsAttacking = true;
         }
 
+        // Atirar flecha - Chamado pela animação de ataque à distância
         public void shootArrow()
         {
+            // Realiza um raycast para identificar um alvo
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
             System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
 
             foreach (RaycastHit hit in hits)
             {
+                // Se o alvo não estiver em uma tag excluída, atira na direção identificada
                 if (!projectileTagsToExclude.Contains(hit.collider.tag))
                 {
+                    // Instancia um projétil e define seu alvo, destruindo-o após um tempo
                     projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
                     projectileInstance.SetTarget(hit.point, "Enemy");
                     Destroy(projectileInstance.gameObject, 10f);
@@ -104,30 +109,34 @@ namespace RPG.Player.Attack
                 }
             }
 
+            // Se nenhum alvo foi identificado pelo raycast, atira na direção do mouse
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = 100;
             Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
+            // Instancia um projétil e define seu alvo como a posição do mouse, destruindo-o após um tempo
             projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
             projectileInstance.SetTarget(worldMousePosition, "Enemy");
             Destroy(projectileInstance.gameObject, 10f);
-
         }
 
-        //Chamado através da animação de ataque
+        // Desativar ataque - Chamado pela animação de ataque
         public void desactiveAttack()
         {
+            // Desativa flags de ataque
             isMeleeAttacking = false;
             isRangedAttacking = false;
             weaponController.IsAttacking = false;
         }
+
         #endregion
 
-        #region  CALLBACKS DE INPUT 
+        #region CALLBACKS DE INPUT
 
-        //Inicia animação de melee attack
+        // Inicia animação de ataque
         public void Attack(InputAction.CallbackContext context)
         {
+            // Inicia o ataque, com base no tipo de arma sendo usada
             if (isUsingSword)
             {
                 animator.SetTrigger(meleeAttackingHash);
@@ -138,33 +147,32 @@ namespace RPG.Player.Attack
                 animator.SetTrigger(rangedAttackingHash);
                 isRangedAttacking = true;
             }
-
         }
 
-        // Chamado quando soltamos o botão de melee attack
+        // Chamado quando soltamos o botão de ataque
         public void StopAttack(InputAction.CallbackContext context)
         {
-
+            // Lógica para encerrar o ataque (se necessário)
         }
 
-        //Inicia animação de melee attack
+        // Inicia a troca de arma
         public void ChangeWeapon(InputAction.CallbackContext context)
         {
+            // Troca entre espada e arco
             if (isUsingSword)
             {
                 spawnWeapon(bowPrefab, leftHandTransform);
             }
-
             else
             {
                 spawnWeapon(swordPrefab, rightHandTransform);
             }
         }
 
-        // Chamado quando soltamos o botão de melee attack
+        // Chamado quando soltamos o botão de troca de arma
         public void StopChangeWeapon(InputAction.CallbackContext context)
         {
-
+            // Lógica para encerrar a troca de arma (se necessário)
         }
 
         #endregion

@@ -74,20 +74,21 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
-            if (playerAttack.IsRangedAttacking)
+            if (playerAttack.IsRangedAttacking) // Se o jogador está atacando à distância
             {
+                // Lança um raio da posição do mouse na tela para o mundo 3D
                 ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
 
+                // Verifica se o raio atinge algo no cenário dentro de uma distância específica
                 if (Physics.Raycast(ray, out RaycastHit hit, mouseInputDistance))
                 {
+                    // Determina a direção para onde o jogador deve olhar
                     Vector3 direction = hit.point - transform.position;
-                    direction.y = 0; // Define o componente y para zero para restringir ao plano XZ
+                    direction.y = 0; // Define o componente y como zero para restringir ao plano XZ
 
+                    // Calcula a rotação do jogador para olhar na direção determinada
                     Quaternion novaRotacao = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0);
-
-
-                    //transform.LookAt(hit.point.x, transform.position.y, hit.point.z); // Define a posição de movimento com base no ponto onde o raio colidiu com o objeto.
+                    transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0); // Ajusta a rotação do jogador apenas nos eixos X e Z
                 }
                 return;
             }
@@ -97,9 +98,8 @@ namespace RPG.Player.Movement
 
         private void FixedUpdate()
         {
-            if (playerAttack.IsRangedAttacking)
+            if (playerAttack.IsRangedAttacking) //Se o player está atirando, então ele não pode se mover
             {
-
                 return;
             }
 
