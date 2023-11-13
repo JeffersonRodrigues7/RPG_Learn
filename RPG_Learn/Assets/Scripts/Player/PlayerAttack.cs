@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.HID;
 
 namespace RPG.Player.Attack
 {
@@ -23,6 +24,8 @@ namespace RPG.Player.Attack
         private Animator animator; //Componente animator
         private GameObject weapon;
         private WeaponController weaponController;
+
+        ProjectileController projectileInstance;
 
         private bool isUsingSword = false;//´true-> weapon atual é a espada; false -> weapon atua´l é o arco
 
@@ -94,12 +97,21 @@ namespace RPG.Player.Attack
             {
                 if (!projectileTagsToExclude.Contains(hit.collider.tag))
                 {
-                    ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
+                    projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
                     projectileInstance.SetTarget(hit.point, "Enemy");
                     Destroy(projectileInstance.gameObject, 10f);
-                    break;
+                    return;
                 }
             }
+
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = 100;
+            Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
+            projectileInstance.SetTarget(worldMousePosition, "Enemy");
+            Destroy(projectileInstance.gameObject, 10f);
+
         }
 
         //Chamado através da animação de ataque

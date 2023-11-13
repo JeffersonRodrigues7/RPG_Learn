@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using RPG.Player.Attack;
+using System;
 
 namespace RPG.Player.Movement
 {
@@ -21,9 +23,11 @@ namespace RPG.Player.Movement
         private Animator animator; //Componente animator
         private Rigidbody rb; //Componente rigidibody
         private NavMeshAgent navMeshAgent; //Componente navMeshAgent
+        private PlayerAttack playerAttack;
 
         private Camera cam; //Camera principal do jogo
 
+        Ray ray;
         private Vector3 movementPosition;  //Posição para qual o player irá se mover
 
         private bool isWalking = false; //Flag que indica que o objetando está se movendo
@@ -52,6 +56,7 @@ namespace RPG.Player.Movement
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
             navMeshAgent = GetComponent<NavMeshAgent>();
+            playerAttack = GetComponent<PlayerAttack>();
         }
 
         private void Start()
@@ -69,11 +74,35 @@ namespace RPG.Player.Movement
 
         private void Update()
         {
+            if (playerAttack.IsRangedAttacking)
+            {
+                ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+                if (Physics.Raycast(ray, out RaycastHit hit, mouseInputDistance))
+                {
+                    Vector3 direction = hit.point - transform.position;
+                    direction.y = 0; // Define o componente y para zero para restringir ao plano XZ
+
+                    Quaternion novaRotacao = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0);
+
+
+                    //transform.LookAt(hit.point.x, transform.position.y, hit.point.z); // Define a posição de movimento com base no ponto onde o raio colidiu com o objeto.
+                }
+                return;
+            }
+
             updateMoveParameters();
         }
 
         private void FixedUpdate()
         {
+            if (playerAttack.IsRangedAttacking)
+            {
+
+                return;
+            }
+
             currentSpeed = isRunning ? runSpeed : walkSpeed;
 
             if (isJumping) //Player está pulando
@@ -102,7 +131,7 @@ namespace RPG.Player.Movement
         {
 
             // Cria um raio a partir da posição do mouse convertida para o espaço da tela.
-            Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             // Realiza um raio para detectar colisões no mundo e armazena as informações na variável 'hit'.
             if (Physics.Raycast(ray, out RaycastHit hit, mouseInputDistance))
