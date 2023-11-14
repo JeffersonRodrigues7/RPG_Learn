@@ -10,9 +10,9 @@ namespace RPG.Character.Movement
     {
         [Header("CharacterData")]
         [SerializeField] private float walkSpeed = 0; // Velocidade de caminhada do personagem
-        [SerializeField] private float chaseSpeed = 0; // Velocidade de perseguição do personagem
-        [SerializeField] private float cooldownTimeAfterChase = 2f; // Tempo de espera após a perseguição
-        [SerializeField] private float arrivalDistance = 0.1f; // Distância para considerar que o personagem chegou à posição final
+        [SerializeField] private float chaseSpeed = 0; // Velocidade de perseguiï¿½ï¿½o do personagem
+        [SerializeField] private float cooldownTimeAfterChase = 2f; // Tempo de espera apï¿½s a perseguiï¿½ï¿½o
+        [SerializeField] private float arrivalDistance = 0.1f; // Distï¿½ncia para considerar que o personagem chegou ï¿½ posiï¿½ï¿½o final
         [SerializeField] private Transform[] patrolPoints; // Pontos de patrulha do personagem
 
         private enum CharacterState // Estados possiveis
@@ -29,10 +29,10 @@ namespace RPG.Character.Movement
         private Animator animator; 
         private NavMeshAgent navMeshAgent;
         private Transform target; // Alvo atual do personagem
-        private Coroutine goBackToOriginalPositionVariable; // Corrotina para retornar à posição original
-        private Vector3 originalPosition; // Posição original do personagem
+        private Coroutine goBackToOriginalPositionVariable; // Corrotina para retornar ï¿½ posiï¿½ï¿½o original
+        private Vector3 originalPosition; // Posiï¿½ï¿½o original do personagem
 
-        private int isWalkingHash; // Hash da String que se refere à animação de Walk
+        private int isWalkingHash; // Hash da String que se refere ï¿½ animaï¿½ï¿½o de Walk
         private bool isWalking = false;
 
         private int initialPatrolPoint = 0; // Ponto inicial de patrulha
@@ -49,20 +49,20 @@ namespace RPG.Character.Movement
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
-            isWalkingHash = Animator.StringToHash("isWalking"); // Obtém o hash da string da animação de caminhada
-            originalPosition = transform.position; // Registra a posição original do personagem
+            isWalkingHash = Animator.StringToHash("isWalking"); // Obtï¿½m o hash da string da animaï¿½ï¿½o de caminhada
+            originalPosition = transform.position; // Registra a posiï¿½ï¿½o original do personagem
             currentCharacterState = CharacterState.Patrolling; // Define o estado inicial como "Patrolling"
             navMeshAgent.speed = walkSpeed; 
 
-            if (patrolPoints != null) patrolPointsLength = patrolPoints.Length; // Registra o número de pontos de patrulha se existirem.
+            if (patrolPoints != null) patrolPointsLength = patrolPoints.Length; // Registra o nï¿½mero de pontos de patrulha se existirem.
         }
 
         private void Update()
         {
             switch (currentCharacterState)
             {
-                case CharacterState.Patrolling: // Personagem parado na posição original.
-                    if (patrolPointsLength > 1 && !isWalking) // Se existir mais de um ponto de patrulha e o personagem não estiver caminhando
+                case CharacterState.Patrolling: // Personagem parado na posiï¿½ï¿½o original.
+                    if (patrolPointsLength > 1 && !isWalking) // Se existir mais de um ponto de patrulha e o personagem nï¿½o estiver caminhando
                     {
                         setWalkingAnimation(true);
                     }
@@ -73,19 +73,19 @@ namespace RPG.Character.Movement
                     navMeshAgent.SetDestination(target.position);
                     break;
 
-                case CharacterState.MovingToLastKnownEnemyPosition: // Movendo-se para a última posição conhecida do inimigo.
+                case CharacterState.MovingToLastKnownEnemyPosition: // Movendo-se para a ï¿½ltima posiï¿½ï¿½o conhecida do inimigo.
                     if (navMeshAgent.remainingDistance <= arrivalDistance)
                     {
-                        goBackToOriginalPositionVariable = StartCoroutine(goBackToOriginalPosition()); // Inicia a corrotina para retornar à posição original
+                        goBackToOriginalPositionVariable = StartCoroutine(goBackToOriginalPosition()); // Inicia a corrotina para retornar ï¿½ posiï¿½ï¿½o original
                         currentCharacterState = CharacterState.Searching; // Muda para o estado de busca
                     }
                     break;
 
-                case CharacterState.Searching: // Personagem está parado atento ao inimigo que saiu de seu alcance de perseguição
+                case CharacterState.Searching: // Personagem estï¿½ parado atento ao inimigo que saiu de seu alcance de perseguiï¿½ï¿½o
                     
                     break;
 
-                case CharacterState.ReturningToOriginalPosition: // Retornando à posição original.
+                case CharacterState.ReturningToOriginalPosition: // Retornando ï¿½ posiï¿½ï¿½o original.
                     if (navMeshAgent.remainingDistance <= arrivalDistance)
                     {
                         navMeshAgent.ResetPath(); // Limpa o caminho
@@ -102,7 +102,7 @@ namespace RPG.Character.Movement
             }
         }
 
-        // Função que realizar a patrulha do personagem
+        // Funï¿½ï¿½o que realizar a patrulha do personagem
         private void doPatrolling()
         {
             if (patrolPointsLength > 0) //Se houve algum ponto de patrulha
@@ -119,7 +119,7 @@ namespace RPG.Character.Movement
             }
             else
             {
-                setWalkingAnimation(false); // Se não houver pontos de patrulha, desativa a animação de caminhada
+                setWalkingAnimation(false); // Se nï¿½o houver pontos de patrulha, desativa a animaï¿½ï¿½o de caminhada
             }
         }
 
@@ -128,29 +128,29 @@ namespace RPG.Character.Movement
             if (isWalking != _isWalking)
             {
                 isWalking = _isWalking;
-                animator.SetBool(isWalkingHash, isWalking); // Define o parâmetro da animação de caminhada
+                animator.SetBool(isWalkingHash, isWalking); // Define o parï¿½metro da animaï¿½ï¿½o de caminhada
             }
         }
 
-        // Inicia a perseguição.
+        // Inicia a perseguiï¿½ï¿½o.
         public void startChase(Transform transform)
         {
-
+            Debug.Log("Starting Chase");
             currentCharacterState = CharacterState.Chasing;
             navMeshAgent.speed = chaseSpeed;
 
-            // Se estiver no meio de uma corrotina de retorno à posição original, interrompa-a.
+            // Se estiver no meio de uma corrotina de retorno ï¿½ posiï¿½ï¿½o original, interrompa-a.
             if (goBackToOriginalPositionVariable != null)
             {
                 StopCoroutine(goBackToOriginalPositionVariable);
                 goBackToOriginalPositionVariable = null;
             }
 
-            target = transform; // Define o alvo da perseguição
+            target = transform; // Define o alvo da perseguiï¿½ï¿½o
             setWalkingAnimation(true); 
         }
 
-        // Interrompe a perseguição e muda para o estado de movimento para a última posição conhecida do inimigo.
+        // Interrompe a perseguiï¿½ï¿½o e muda para o estado de movimento para a ï¿½ltima posiï¿½ï¿½o conhecida do inimigo.
         public void stopChase()
         {
 
@@ -159,7 +159,7 @@ namespace RPG.Character.Movement
             currentCharacterState = CharacterState.MovingToLastKnownEnemyPosition;
         }
 
-        // Corrotina para retornar à posição original após a perseguição.
+        // Corrotina para retornar ï¿½ posiï¿½ï¿½o original apï¿½s a perseguiï¿½ï¿½o.
         private IEnumerator goBackToOriginalPosition()
         {
 
@@ -168,7 +168,7 @@ namespace RPG.Character.Movement
 
             yield return new WaitForSeconds(cooldownTimeAfterChase);
 
-            // Após o tempo de espera, entra no estado de retornar à posição original
+            // Apï¿½s o tempo de espera, entra no estado de retornar ï¿½ posiï¿½ï¿½o original
             currentCharacterState = CharacterState.ReturningToOriginalPosition;
             navMeshAgent.SetDestination(originalPosition);
             setWalkingAnimation(true);
