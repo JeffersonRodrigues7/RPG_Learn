@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,7 +11,7 @@ namespace RPG.Character
         [Header("Basic")]
         public string _id = "0";
         public string _name = "Meditrax";
-        [ResizableTextArea] public string _description = "Primeiro Inimigo";
+        [TextArea] public string _description = "Primeiro Inimigo";
         public string _type = "Bestial";
 
         [Header("Detection")]
