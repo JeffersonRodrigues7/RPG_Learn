@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BestialOverrideController
+  m_Name: DarkLordOverrideController
   m_Controller: {fileID: 9100000, guid: 349b7dc74bf8e37439016abbe3197fd7, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 9c68d6ea8cb1bd34387e8f951df52de9, type: 2}
