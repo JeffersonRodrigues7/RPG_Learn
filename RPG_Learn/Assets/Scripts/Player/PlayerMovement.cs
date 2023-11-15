@@ -27,8 +27,11 @@ namespace RPG.Player.Movement
 
         private Camera cam; //Camera principal do jogo
 
-        Ray ray;
+        private Ray ray;
         private Vector3 movementPosition;  //Posição para qual o player irá se mover
+
+        private Vector3 mousePosition;
+        private Vector3 wantedMousePosition;
 
         private bool isWalking = false; //Flag que indica que o objetando está se movendo
         private float currentSpeed = 3.0f; //Velocidade atual do jogador
@@ -76,24 +79,19 @@ namespace RPG.Player.Movement
         {
             if (playerAttack.IsRangedAttacking) // Se o jogador está atacando à distância
             {
-                // Lança um raio da posição do mouse na tela para o mundo 3D
-                ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+                mousePosition = Input.mousePosition;
+                wantedMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 100f));
+                // Determina a direção para onde o jogador deve olhar
+                Vector3 direction = wantedMousePosition - transform.position;
 
-                // Verifica se o raio atinge algo no cenário dentro de uma distância específica
-                if (Physics.Raycast(ray, out RaycastHit hit, mouseInputDistance))
-                {
-                    // Determina a direção para onde o jogador deve olhar
-                    Vector3 direction = hit.point - transform.position;
-                    direction.y = 0; // Define o componente y como zero para restringir ao plano XZ
+                direction.y = 0; // Define o componente y como zero para restringir ao plano XZ
 
-                    // Calcula a rotação do jogador para olhar na direção determinada
-                    Quaternion novaRotacao = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0); // Ajusta a rotação do jogador apenas nos eixos X e Z
-                }
+                // Calcula a rotação do jogador para olhar na direção determinada
+                Quaternion novaRotacao = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0); // Ajusta a rotação do jogador apenas nos eixos X e Z
             }
             else
             {
-
                 updateMoveParameters();
             }
 

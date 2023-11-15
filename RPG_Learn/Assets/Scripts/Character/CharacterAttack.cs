@@ -74,7 +74,7 @@ namespace RPG.Character.Attack
         public void shootArrow()
         {
             // Instancia um projétil para ataque à distância, direcionado ao alvo determinado
-            Debug.Log(target.name); // Nome do alvo (apenas para debug)
+            //Debug.Log(target.name); // Nome do alvo (apenas para debug)
             ProjectileController projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
             projectileInstance.SetTarget(target.position, "Player"); // Define o alvo do projétil como o jogador
             Destroy(projectileInstance.gameObject, 10f); // Destruir o projétil após um tempo determinado

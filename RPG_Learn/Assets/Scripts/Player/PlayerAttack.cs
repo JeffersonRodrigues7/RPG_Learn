@@ -109,11 +109,14 @@ namespace RPG.Player.Attack
                 }
             }
 
+
+            
             // Se nenhum alvo foi identificado pelo raycast, atira na direção do mouse
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = 100;
             Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
+            //Debug.Log($"Atirando aqui {mousePosition}");
             // Instancia um projétil e define seu alvo como a posição do mouse, destruindo-o após um tempo
             projectileInstance = Instantiate(projectileController, rightHandTransform.position, Quaternion.identity, ArrowParents);
             projectileInstance.SetTarget(worldMousePosition, "Enemy");
