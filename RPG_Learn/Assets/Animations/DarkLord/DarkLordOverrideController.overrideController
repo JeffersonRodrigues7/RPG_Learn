@@ -9,7 +9,9 @@ AnimatorOverrideController:
   m_Name: DarkLordOverrideController
   m_Controller: {fileID: 9100000, guid: 349b7dc74bf8e37439016abbe3197fd7, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 9c68d6ea8cb1bd34387e8f951df52de9, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 441476c534d48d24da01dc66dc4dce09, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 28f5a19604fddaa4fa494d15509f4507, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: da8e5a587b272524ca0c08314242190c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e315151e779a57849bb93e934dd5856e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9c68d6ea8cb1bd34387e8f951df52de9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 288e02b876902074999b3bbbb71b7e68, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 62074276c5d2a2047aba116c21c3d3d3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4aef17afe92e9354fab7e8d5ea4649f9, type: 2}

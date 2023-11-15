@@ -135,7 +135,7 @@ namespace RPG.Character.Movement
         // Inicia a persegui��o.
         public void startChase(Transform transform)
         {
-            Debug.Log("Starting Chase");
+            //Debug.Log("Starting Chase");
             currentCharacterState = CharacterState.Chasing;
             navMeshAgent.speed = chaseSpeed;
 
