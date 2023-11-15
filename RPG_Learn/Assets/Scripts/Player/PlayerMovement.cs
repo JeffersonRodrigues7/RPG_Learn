@@ -90,10 +90,13 @@ namespace RPG.Player.Movement
                     Quaternion novaRotacao = Quaternion.LookRotation(direction);
                     transform.rotation = Quaternion.Euler(0, novaRotacao.eulerAngles.y, 0); // Ajusta a rotação do jogador apenas nos eixos X e Z
                 }
-                return;
+            }
+            else
+            {
+
+                updateMoveParameters();
             }
 
-            updateMoveParameters();
         }
 
         private void FixedUpdate()
