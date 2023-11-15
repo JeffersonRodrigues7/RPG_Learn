@@ -1325,6 +1325,7 @@ MonoBehaviour:
   projectileTagsToExclude:
   - Weapon
   - Detection
+  ArrowParents: {fileID: 0}
 --- !u!114 &7783690841347288983
 MonoBehaviour:
   m_ObjectHideFlags: 0

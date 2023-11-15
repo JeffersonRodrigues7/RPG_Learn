@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67e2619e7b8f2494a9a42b844d43a80d, type: 3}
-  m_Name: Nebulosa
+  m_Name: Erika
   m_EditorClassIdentifier: 
   _id: 1
-  _name: Nebulosa
+  _name: Erika
   _description: Segundo Inimigo
   _type: Human
   _behavior: 3
@@ -27,5 +27,5 @@ MonoBehaviour:
   _patrolPoints: []
   _damage: 10
   _maxHealth: 50
-  _animatorOverrideController: {fileID: 22100000, guid: 2f4b3100c9207e445b20bd9d22ea8411, type: 2}
+  _animatorOverrideController: {fileID: 22100000, guid: 459ed6e6f8bd7fd4ab685fb7d4c4d7b0, type: 2}
   _prefab: {fileID: 9139509745002266339, guid: 025f42069a052734f9b068329f37125a, type: 3}

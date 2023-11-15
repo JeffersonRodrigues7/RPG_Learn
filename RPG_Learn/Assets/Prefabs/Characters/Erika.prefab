@@ -3374,7 +3374,7 @@ GameObject:
   - component: {fileID: 1133858449522274218}
   - component: {fileID: 5782710130942242194}
   m_Layer: 0
-  m_Name: Nebulosa
+  m_Name: Erika
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3411,7 +3411,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9139509745002266339}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3f970cb72d903f248865b7202603756d, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 47bf6f6c9ebb1a64bb1d2b2477391a1f, type: 3}
   m_Controller: {fileID: 9100000, guid: 349b7dc74bf8e37439016abbe3197fd7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -3466,8 +3466,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
-  weaponPrefab: {fileID: 3964347541132674574, guid: 223daaca244fbc044b88967b86d54a77, type: 3}
+  swordPrefab: {fileID: 3964347541132674574, guid: 223daaca244fbc044b88967b86d54a77, type: 3}
+  bowPrefab: {fileID: 6663683016408734395, guid: 09aa14290a4eefd4bbbf6a5a22b0449c, type: 3}
+  leftHandTransform: {fileID: 2894410169649403505}
   rightHandTransform: {fileID: 7755984344903220346}
+  projectileController: {fileID: 602538487852084214, guid: ca711863b166dcb4da8f12ea09ed336b, type: 3}
+  isUsingSword: 0
+  ArrowParents: {fileID: 0}
 --- !u!114 &2677495526454955906
 MonoBehaviour:
   m_ObjectHideFlags: 0
